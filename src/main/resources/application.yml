@@ -1,3 +1,4 @@
+auth: hanyun
 spring:
   profiles:
     active: @profileActive@
@@ -8,6 +9,16 @@ spring:
     suffix: .html
     prefix: classpath:/templates/
     cache: false
-  mvc: static-path-pattern=/** # Path pattern used for static
-pageSize: 15
-auth: hanyun
+
+  datasource:
+    username: root
+    password: 12345678
+    url: jdbc:mysql://localhost:3306/spring?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  type-aliases-package: com.hanyun.lee.entity
+  mapper-locations: classpath:mapping/*.xml
+logging:
+  level:
+#    打印SQL日志
+    com.hanyun.lee.mapper: debug

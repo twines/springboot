@@ -1,4 +1,4 @@
-package com.hanyun.lee.Controller;
+package com.hanyun.lee.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
