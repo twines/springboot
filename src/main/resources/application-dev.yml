@@ -5,7 +5,7 @@ spring:
   datasource:
     username: root
     password: 12345678
-mybatis:
+# 配置slq打印日志
+mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印SQL日志
-
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

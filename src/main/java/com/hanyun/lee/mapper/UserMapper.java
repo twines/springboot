@@ -1,9 +1,8 @@
 package com.hanyun.lee.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hanyun.lee.entity.User;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
     User getUserById(int id);
 }

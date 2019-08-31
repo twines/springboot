@@ -1,6 +1,6 @@
 package com.hanyun.lee.controller;
 
-import com.hanyun.lee.service.UserService;
+import com.hanyun.lee.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,13 +12,12 @@ public class LoginController {
     private String environment;
 
     @Autowired
-    private UserService userService;
-
+    private IUserService iUserService;
 
     @RequestMapping("/login")
     public String index() {
 //        System.out.print(this.environment);
-        System.out.print(userService.Sel(1));
+        System.out.print(iUserService.getUserById(1));
         return "login";
     }
 }
