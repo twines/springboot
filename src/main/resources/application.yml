@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: @profileActive@
+  thymeleaf:
+    check-template-location: true
+    servlet:
+      content-type: text/html
+    suffix: .html
+    prefix: classpath:/templates/
+    cache: false
+  mvc: static-path-pattern=/** # Path pattern used for static
+pageSize: 15
+auth: hanyun
