@@ -28,6 +28,8 @@ spring:
     pool-prepared-statements: true
     max-open-prepared-statements: 50
     max-pool-prepared-statement-per-connection-size: 20
+  session:
+    store-type: redis
 
 mybatis-plus:
   #外部化xml配置
