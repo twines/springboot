@@ -3,17 +3,17 @@
 <mapper namespace="com.twins.lee.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.twins.lee.entity.User">
-        <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="userName" jdbcType="VARCHAR" property="userName" />
-        <result column="passWord" jdbcType="VARCHAR" property="passWord" />
-        <result column="realName" jdbcType="VARCHAR" property="realName" />
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="passWord" jdbcType="VARCHAR" property="passWord"/>
+        <result column="realName" jdbcType="VARCHAR" property="realName"/>
     </resultMap>
 
     <select id="getUserById" resultType="com.twins.lee.entity.User">
         select * from user where id = #{id}
     </select>
 
-    <select id="selectUserList" resultType="com.twins.lee.entity.User">
-        SELECT * FROM user WHERE state=#{state}
+    <select id="selectUserByPage" resultType="com.twins.lee.entity.User">
+        SELECT * from user where id > #{id}
     </select>
 </mapper>

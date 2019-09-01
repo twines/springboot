@@ -1,5 +1,6 @@
 package com.twins.lee.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.twins.lee.entity.User;
 import com.twins.lee.service.IUserService;
 import org.junit.Test;
@@ -25,6 +26,8 @@ public class LoginControllerTest {
 
     @Test
     public void login() {
+        Page page = new Page<User>(1, 2);
+        System.out.print(iUserService.selectUserByPage(page, 1));
         User user = iUserService.getUserById(1);
         if (user != null) {
             redisTemplate.opsForValue().set("loginUser:" + user.getId(), "11111111");
