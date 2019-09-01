@@ -1,4 +1,4 @@
-package com.hanyun.lee.entity;
+package com.twins.lee.entity;
 
 public class User {
     private Integer id;

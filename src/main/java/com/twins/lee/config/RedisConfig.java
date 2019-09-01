@@ -1,4 +1,4 @@
-package com.hanyun.lee.config;
+package com.twins.lee.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

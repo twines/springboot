@@ -1,4 +1,4 @@
-package com.hanyun.lee.config;
+package com.twins.lee.config;
 
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.context.annotation.Bean;

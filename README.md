@@ -14,7 +14,7 @@
 │  ├─main
 │  │  ├─java
 │  │  │  └─com
-│  │  │      └─hanyun
+│  │  │      └─twins
 │  │  │          └─lee
 │  │  │              ├─config       配置文件目录：例如 Druid的配置
 │  │  │              ├─controller   控制器
@@ -70,7 +70,7 @@
 │  └─test
 │      └─java
 │          └─com
-│              └─hanyun
+│              └─twins
 │                  └─lee
 └─target
     ├─classes
