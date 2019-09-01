@@ -1,4 +1,4 @@
-auth: hanyun
+auth: twins
 spring:
   profiles:
     active: @profileActive@
@@ -28,6 +28,8 @@ spring:
     pool-prepared-statements: true
     max-open-prepared-statements: 50
     max-pool-prepared-statement-per-connection-size: 20
+  session:
+    store-type: redis
 
 mybatis-plus:
   #外部化xml配置
@@ -37,7 +39,7 @@ mybatis-plus:
   #xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
   mapper-locations: classpath:mapping/*.xml
   #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名
-  type-aliases-package: com.hanyun.lee.entity
+  type-aliases-package: com.twins.lee.entity
   #如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象
   #type-aliases-super-type: java.lang.Object
   #枚举类 扫描路径，如果配置了该属性，会将路径下的枚举类进行注入，让实体类字段能够简单快捷的使用枚举属性

@@ -1,4 +1,5 @@
 #说明
+
 ---
 
 牛逼不是吹的,火车不是推的，少说话多做事，少点抱怨，多点承担 ヾ(◍°∇°◍)ﾉﾞ 
@@ -7,6 +8,11 @@
 
 [后台监控地址](http://localhost:8080/druid/sql.html)，可以监控页面访问，SQL
 
+##参考文档
+
+[mybatis.plus](https://mybatis.plus)
+
+
 目录结构
 ```
 项目
@@ -14,7 +20,7 @@
 │  ├─main
 │  │  ├─java
 │  │  │  └─com
-│  │  │      └─hanyun
+│  │  │      └─twins
 │  │  │          └─lee
 │  │  │              ├─config       配置文件目录：例如 Druid的配置
 │  │  │              ├─controller   控制器
@@ -70,7 +76,7 @@
 │  └─test
 │      └─java
 │          └─com
-│              └─hanyun
+│              └─twins
 │                  └─lee
 └─target
     ├─classes

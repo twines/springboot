@@ -1,4 +1,4 @@
-package com.hanyun.lee;
+package com.twins.lee;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
