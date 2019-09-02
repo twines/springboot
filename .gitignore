@@ -17,7 +17,7 @@ target/
 .idea
 .mvn
 *.iws
-*.iml
+web/web.iml
 *.ipr
 
 ### NetBeans ###
