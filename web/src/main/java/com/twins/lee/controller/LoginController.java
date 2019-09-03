@@ -11,6 +11,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +41,7 @@ public class LoginController {
     @RequestMapping("/login")
     public String index() {
         Subject subject = SecurityUtils.getSubject();
-        if (subject.isRemembered()) {
+        if (subject.isAuthenticated()) {
             System.out.println(subject);
             return "redirect:/";
         }
@@ -84,6 +86,8 @@ public class LoginController {
 
     @RequestMapping("/userList")
     @ResponseBody
+    @RequiresRoles("vip")
+    @RequiresPermissions("user:list")
     public IPage<User> useList(@RequestParam(value = "page", required = false, defaultValue = "1") long p) {
         Page page = new Page<User>(p, 2);
         return iUserService.selectUserByPage(page, 1);

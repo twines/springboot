@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : iCarrier
- Source Server Type    : MySQL
- Source Server Version : 80012
+ Source Server         : Carrier
+ Source Server Type    : MariaDB
+ Source Server Version : 100406
  Source Host           : localhost:3306
  Source Schema         : spring
 
- Target Server Type    : MySQL
- Target Server Version : 80012
+ Target Server Type    : MariaDB
+ Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 03/09/2019 17:53:49
+ Date: 04/09/2019 00:19:30
 */
 
 SET NAMES utf8mb4;
@@ -23,8 +23,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限名称',
-  `resourceType` varchar(255) DEFAULT NULL COMMENT '资源类型，[menu|button]  ',
+  `name` varchar(255) DEFAULT NULL COMMENT '权限名称',
+  `resource_type` varchar(255) DEFAULT NULL COMMENT '资源类型，[menu|button]  ',
   `url` varchar(255) DEFAULT NULL COMMENT '资源路径.  ',
   `permission` varchar(255) DEFAULT NULL COMMENT '权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view ',
   `parent_id` int(11) DEFAULT NULL COMMENT '父编号  0代表自身为父',
@@ -37,9 +37,10 @@ CREATE TABLE `permission` (
 -- Records of permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `permission` VALUES (1, '用户管理', 'menu', '\'userInfo/userList', 'userInfo:view', 0, '0/', 1);
+INSERT INTO `permission` VALUES (1, '用户管理', 'menu', 'userInfo/userList', 'userInfo:view', 0, '0/', 1);
 INSERT INTO `permission` VALUES (2, '用户添加', 'button', 'userInfo/userAdd', 'userInfo:add', 1, '0/1', 1);
 INSERT INTO `permission` VALUES (3, '用户删除', 'button', 'userInfo/userDel', 'userInfo:del', 1, '0/1', 1);
+INSERT INTO `permission` VALUES (4, '用户浏览', 'button', 'user/list', 'user:list', 1, '0/1', 1);
 COMMIT;
 
 -- ----------------------------
@@ -50,7 +51,7 @@ CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role` varchar(255) DEFAULT NULL COMMENT '角色标识程序中判断使用,如"admin",这个是唯一的:',
   `description` varchar(255) DEFAULT NULL COMMENT '角色描述,UI界面显示使用 ',
-  `available` tinyint(2) DEFAULT '1' COMMENT ' 是否可用,如果不可用将不会添加给用户',
+  `available` tinyint(2) DEFAULT 1 COMMENT ' 是否可用,如果不可用将不会添加给用户',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -67,7 +68,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission` (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` varchar(255) NOT NULL,
   `permission_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -79,6 +80,8 @@ CREATE TABLE `role_permission` (
 BEGIN;
 INSERT INTO `role_permission` VALUES ('1', 1, 1);
 INSERT INTO `role_permission` VALUES ('2', 1, 2);
+INSERT INTO `role_permission` VALUES ('4', 3, 1);
+INSERT INTO `role_permission` VALUES ('5', 4, 1);
 COMMIT;
 
 -- ----------------------------
@@ -115,7 +118,7 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `user_role` VALUES (1, 1, 1);
-INSERT INTO `user_role` VALUES (1, 1, 2);
+INSERT INTO `user_role` VALUES (2, 1, 3);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
