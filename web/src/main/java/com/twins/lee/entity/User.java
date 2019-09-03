@@ -64,7 +64,7 @@ public class User implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", realName='" + realName + '\'' +
-                ", roles=" + roles +
+                ", roles=" + roles.toString() +
                 '}';
     }
 }
