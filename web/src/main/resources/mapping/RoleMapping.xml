@@ -8,7 +8,7 @@
         <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="available" jdbcType="INTEGER" property="available"/>
         <collection property="permissions" ofType="com.twins.lee.entity.Permission">
-            <id column="id" property="id"/>
+            <id column="p_id" property="id"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>
             <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
             <result column="url" jdbcType="VARCHAR" property="url"/>
@@ -26,7 +26,7 @@
              WHERE
             r.id = rp.role_id and  r.id=#{id}
         ) r_p
-        LEFT JOIN
+        left JOIN
         permission p
          ON r_p.permission_id = p.id
  </select>

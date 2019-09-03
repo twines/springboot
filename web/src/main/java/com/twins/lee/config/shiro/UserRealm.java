@@ -18,6 +18,7 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRealm extends AuthorizingRealm {
@@ -34,14 +35,17 @@ public class UserRealm extends AuthorizingRealm {
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User user = (User) principalCollection.getPrimaryPrincipal();
+        List<String> permissionsSet = new ArrayList<>();
         //默认使用null不进行权限控制
         for (Role role : user.getRoles()) {
             authorizationInfo.addRole(role.getRole());
             List<Permission> permissions = roleMapper.getRoleById(role.getId()).getPermissions();
             for (Permission permission : permissions) {
                 authorizationInfo.addStringPermission(permission.getPermission());
-            }
+             }
         }
+        authorizationInfo.addStringPermissions(permissionsSet);
+
         return authorizationInfo;
     }
 
