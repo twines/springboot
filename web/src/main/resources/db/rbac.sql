@@ -27,8 +27,8 @@ CREATE TABLE `permission` (
   `resourceType` varchar(255) DEFAULT NULL COMMENT '资源类型，[menu|button]  ',
   `url` varchar(255) DEFAULT NULL COMMENT '资源路径.  ',
   `permission` varchar(255) DEFAULT NULL COMMENT '权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view ',
-  `parentId` int(11) DEFAULT NULL COMMENT '父编号  0代表自身为父',
-  `parentIds` varchar(255) DEFAULT NULL COMMENT '父编号列表  ',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父编号  0代表自身为父',
+  `parent_ids` varchar(255) DEFAULT NULL COMMENT '父编号列表  ',
   `available` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -68,8 +68,8 @@ COMMIT;
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission` (
   `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `permissionId` int(11) DEFAULT NULL,
-  `roleId` int(11) DEFAULT NULL,
+  `permission_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

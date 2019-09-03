@@ -5,7 +5,7 @@
     <resultMap id="userResultMap" type="com.twins.lee.entity.User">
         <result column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
-        <result column="password" jdbcType="VARCHAR" property="passWord"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <collection property="roles" ofType="com.twins.lee.entity.Role">
             <id column="role_id" property="id"/>
@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="getUserById" resultMap="userResultMap">
-    SELECT   u_r.id, u_r.user_name, u_r.real_name, r.id role_id, r.role, r.description, r.available  FROM role r LEFT JOIN (SELECT u.*, ur.role_id FROM user u , user_role ur where  u.id=#{id}) u_r  ON u_r.role_id = r.id
+    SELECT   u_r.id, u_r.user_name,u_r.password, u_r.real_name, r.id role_id, r.role, r.description, r.available  FROM role r LEFT JOIN (SELECT u.*, ur.role_id FROM user u , user_role ur where  u.id=#{id}) u_r  ON u_r.role_id = r.id
 </select>
 <select id="getUserByName" parameterType="java.lang.String">
         SELECT   u_r.id, u_r.user_name, u_r.real_name, r.id role_id, r.role, r.description, r.available  FROM role r LEFT JOIN (SELECT u.*, ur.role_id FROM user u , user_role ur where  u.user_name=#{userName}) u_r  ON u_r.role_id = r.id
