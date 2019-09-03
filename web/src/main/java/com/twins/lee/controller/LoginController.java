@@ -62,7 +62,10 @@ public class LoginController {
 
         BaseModel<User> resultModel = null;
         try {
-                 subject.login(token);
+            if (!subject.isAuthenticated()) {
+
+                subject.login(token);
+            }
              //正常登录
             User user = iUserService.getUserById(1);
             resultModel = new BaseModel<>(BaseModel.Success, user);

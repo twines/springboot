@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.twins.lee.entity.Permission;
 import com.twins.lee.entity.Role;
 import com.twins.lee.entity.User;
+import com.twins.lee.mapper.RoleMapper;
 import com.twins.lee.mapper.UserMapper;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,10 +18,13 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 public class UserRealm extends AuthorizingRealm {
     @Resource
     UserMapper userMapper;
+    @Resource
+    RoleMapper roleMapper;
 
     /*
     授权逻辑
@@ -33,14 +37,12 @@ public class UserRealm extends AuthorizingRealm {
         //默认使用null不进行权限控制
         for (Role role : user.getRoles()) {
             authorizationInfo.addRole(role.getRole());
-            if (role.getPermissions() == null) {
-                continue;
-            }
-            for (Permission permission : role.getPermissions()) {
+            List<Permission> permissions = roleMapper.getRoleById(role.getId()).getPermissions();
+            for (Permission permission : permissions) {
                 authorizationInfo.addStringPermission(permission.getPermission());
             }
         }
-        return null;
+        return authorizationInfo;
     }
 
     /*
