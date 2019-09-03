@@ -1,9 +1,15 @@
 package com.twins.lee.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+
 public class User {
+    @TableField("id")
     private Integer id;
+    @TableField("user_name")
     private String userName;
+    @TableField("password")
     private String password;
+    @TableField("real_name")
     private String realName;
 
     public Integer getId() {
