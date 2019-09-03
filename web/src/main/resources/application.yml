@@ -14,20 +14,21 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/spring?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
-    filters: stat,wall
-    max-active: 100
-    initial-size: 1
-    max-wait: 60000
-    min-idle: 1
-    time-between-eviction-runs-millis: 60000
-    min-evictable-idle-time-millis: 300000
-    validation-query: select 'x'
-    test-while-idle: true
-    test-on-borrow: false
-    test-on-return: false
-    pool-prepared-statements: true
-    max-open-prepared-statements: 50
-    max-pool-prepared-statement-per-connection-size: 20
+    druid:
+      filters: stat,wall
+      max-active: 100
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 50
+      max-pool-prepared-statement-per-connection-size: 20
   session:
     store-type: redis
 

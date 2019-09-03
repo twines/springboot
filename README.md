@@ -12,6 +12,7 @@
 
 [mybatis.plus](https://mybatis.plus)
 
+[Druid Spring Boot Starter](https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter)
 
 ---
 当你解决不了问题的时候重启一下试试

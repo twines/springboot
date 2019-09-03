@@ -13,6 +13,16 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <!-- 在properties中统一控制依赖包的版本，更清晰-->
+        <mp.version>3.2.0</mp.version>
+    </properties>
+
     <groupId>com.twins</groupId>
     <artifactId>lee</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -27,11 +37,16 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.2.0</version>
+                <version>${mp.version}</version>
+                <!--                exclusions 当dependency A自身的依赖B，与其他dependency存在冲突的时候（最常见的就是版本冲突），我们就需要把B排除掉，这时就需要使用exclusions元素。-->
+                <!--                https://www.cnblogs.com/huanghongbo/p/9098588.html-->
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.baomidou</groupId>
+                        <artifactId>mybatis-plus-boot-starter</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 </project>
