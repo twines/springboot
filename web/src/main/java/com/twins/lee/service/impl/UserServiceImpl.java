@@ -16,6 +16,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public User getUserByName(String userName) {
+        return baseMapper.getUserByName(userName);
+    }
+
+    @Override
     public IPage<User> selectUserByPage(Page page, Integer state) {
         return baseMapper.selectUserByPage(page, state);
     }

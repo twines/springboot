@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface IUserService extends IService<User> {
     User getUserById(int id);
+    User getUserByName(String userName);
 
     IPage<User> selectUserByPage(Page page, @Param("id") Integer state);
 
