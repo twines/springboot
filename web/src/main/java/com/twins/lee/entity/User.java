@@ -1,9 +1,12 @@
 package com.twins.lee.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import org.springframework.data.annotation.Transient;
 
-public class User {
-    @TableField("id")
+import java.io.Serializable;
+import java.util.List;
+
+public class User implements Serializable {
     private Integer id;
     @TableField("user_name")
     private String userName;
@@ -11,6 +14,8 @@ public class User {
     private String password;
     @TableField("real_name")
     private String realName;
+    @TableField(exist = false)
+    private    List<Role> roles;
 
     public Integer getId() {
         return id;
@@ -44,6 +49,14 @@ public class User {
         this.realName = realName;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -51,6 +64,7 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", realName='" + realName + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }
