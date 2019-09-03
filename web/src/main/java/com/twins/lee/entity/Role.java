@@ -1,6 +1,7 @@
 package com.twins.lee.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.twins.lee.service.IRoleService;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,14 +9,14 @@ import java.util.List;
 
 @Data
 public class Role implements Serializable {
-    private    Long id;
-    private    String role;
-    private    String description;
-    private    Long available;
+    private Long id;
+    private String role;
+    private String description;
+    private Long available;
     @TableField(exist = false)
-    List<Permission> permissions;
+    private List<Permission> permissions;
     @TableField(exist = false)
-    List<User> users;
+    private List<User> users;
 
     public Long getId() {
         return id;

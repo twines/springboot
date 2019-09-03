@@ -19,8 +19,7 @@ import java.util.Map;
 public class ShiroConfig {
     @Bean
     public SimpleCookie rememberMeCookie(){
-        //System.out.println("ShiroConfiguration.rememberMeCookie()");
-        //这个参数是cookie的名称
+         //这个参数是cookie的名称
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //<!-- 记住我cookie生效时间30天 ,单位秒;-->
         simpleCookie.setMaxAge(Cookie.ONE_YEAR);
