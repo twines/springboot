@@ -12,4 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MPController {
     public void selectOn() {
     }
+
+    public void addUser() {
+
+    }
+
+    public void updateUser() {
+
+    }
+
+    public void updateAllUser() {
+
+    }
 }
