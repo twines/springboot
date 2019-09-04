@@ -28,12 +28,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
 public class LoginController {
+    @Resource
+    ShiroCasConfiguration shiroCasConfiguration;
     @Value("${environment}")
     private String environment;
 
@@ -44,8 +47,7 @@ public class LoginController {
     private StringRedisTemplate redisTemplate;
 
     @GetMapping("/cas")
-    @ResponseBody
-    public Object casTicket(@RequestParam("ticket") String ticket) {
+     public String casTicket(@RequestParam("ticket") String ticket) {
         Object value = null;
         CasToken casToken = new CasToken(ticket);
         casToken.setRememberMe(true);
@@ -53,13 +55,13 @@ public class LoginController {
             subject.login(casToken);
             List list = subject.getPrincipals().asList();
             System.out.println(list);
-
-
-        return value;
+        value = subject.getPrincipal();
+        subject.getSession().setAttribute("user",value);
+        return "redirect:/";
     }
     @RequestMapping("/login")
     public String index() {
-        return "redirect:" + ShiroCasConfiguration.loginUrl;
+        return "redirect:" + shiroCasConfiguration.loginUrl;
     }
 
     @RequestMapping("/doLogin")

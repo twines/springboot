@@ -28,7 +28,7 @@ public class IndexController {
         return "403";
     }
 
-    @RequiresRoles(value = {"admin","vip"}, logical = Logical.OR)
+//    @RequiresRoles(value = {"admin","vip"}, logical = Logical.OR)
     @RequestMapping("/dashboard")
     public String dashboard() {
 
