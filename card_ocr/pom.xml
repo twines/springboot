@@ -11,6 +11,8 @@
 
     <artifactId>card_ocr</artifactId>
 
+    <name>图像识别</name>
+    <description>card_ocr</description>
     <dependencies>
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
@@ -36,19 +38,29 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
     <build>
         <resources>
             <resource>
-                <directory>src/main/java</directory>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
-                    <include>**/*.*</include>
+                    <include>application.yml</include>
+                    <include>application-${profileActive}.yml</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>false</filtering>
                 <includes>
-                    <include>**/*.*</include>
+                    <include>templates/**</include>
+                    <include>static/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>mapping/**</include>
                 </includes>
             </resource>
         </resources>
@@ -56,10 +68,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.xsk.ocr.OcrApplication</mainClass>
-                </configuration>
             </plugin>
         </plugins>
     </build>
+    <!--打war包-->
+    <packaging>war</packaging>
+    <!--打jar包-->
+    <!--<packaging>jar</packaging>-->
 </project>

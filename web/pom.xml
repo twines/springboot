@@ -11,6 +11,8 @@
 
     <artifactId>web</artifactId>
 
+    <name>网站</name>
+    <description>网站</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -77,27 +79,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <profileActive>dev</profileActive>
-            </properties>
-            <!-- 是否默认 true表示默认-->
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>pro</id>
-            <properties>
-                <profileActive>pro</profileActive>
-            </properties>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
     <build>
         <resources>
             <resource>
@@ -124,5 +105,15 @@
                 </includes>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
+    <!--打war包-->
+    <packaging>war</packaging>
+    <!--打jar包-->
+    <!--<packaging>jar</packaging>-->
 </project>
