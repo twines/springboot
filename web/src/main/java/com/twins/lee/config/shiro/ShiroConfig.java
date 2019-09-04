@@ -1,5 +1,6 @@
 package com.twins.lee.config.shiro;
 
+import org.apache.shiro.cas.CasFilter;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -15,11 +16,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Import;
 
+import javax.servlet.Filter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
+@Import(ShiroCasConfiguration.class)
 public class ShiroConfig {
     @Bean
     public SimpleCookie rememberMeCookie() {
@@ -56,7 +61,7 @@ public class ShiroConfig {
 
     @Bean
     @Autowired
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier(value = "securityManager") DefaultSecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier(value = "securityManager") DefaultSecurityManager securityManager, CasFilter casFilter) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //拦截器.
@@ -74,16 +79,18 @@ public class ShiroConfig {
 //        //访问权限控制
 //        filterChainDefinitionMap.put("/user", "perms[user:list,user:view]");
 
+        filterChainDefinitionMap.put("/cas", "anon");
 
         filterChainDefinitionMap.put("/**", "authc");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setSuccessUrl("/");
 
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
-
+        Map<String, Filter> filters = new HashMap<>();
+        filters.put("casFilter", casFilter);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

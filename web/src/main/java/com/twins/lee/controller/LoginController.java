@@ -2,6 +2,7 @@ package com.twins.lee.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.twins.lee.config.shiro.ShiroCasConfiguration;
 import com.twins.lee.entity.User;
 import com.twins.lee.model.BaseModel;
 import com.twins.lee.service.IUserService;
@@ -13,12 +14,15 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.cas.CasToken;
 import org.apache.shiro.subject.Subject;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -38,17 +43,23 @@ public class LoginController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @GetMapping("/cas")
+    @ResponseBody
+    public Object casTicket(@RequestParam("ticket") String ticket) {
+        Object value = null;
+        CasToken casToken = new CasToken(ticket);
+        casToken.setRememberMe(true);
+         Subject subject =   SecurityUtils.getSubject();
+            subject.login(casToken);
+            List list = subject.getPrincipals().asList();
+            System.out.println(list);
+
+
+        return value;
+    }
     @RequestMapping("/login")
     public String index() {
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            System.out.println(subject);
-            return "redirect:/";
-        }
-
-//        System.out.print(this.environment);
-        System.out.print(iUserService.getUserById(1));
-        return "login";
+        return "redirect:" + ShiroCasConfiguration.loginUrl;
     }
 
     @RequestMapping("/doLogin")

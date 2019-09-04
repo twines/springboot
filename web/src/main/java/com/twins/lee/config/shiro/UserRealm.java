@@ -12,19 +12,38 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cas.CasAuthenticationException;
+import org.apache.shiro.cas.CasRealm;
+import org.apache.shiro.cas.CasToken;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.util.CollectionUtils;
+import org.apache.shiro.util.StringUtils;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.validation.Assertion;
+import org.jasig.cas.client.validation.TicketValidationException;
+import org.jasig.cas.client.validation.TicketValidator;
+import org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveDataAutoConfiguration;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class UserRealm extends AuthorizingRealm {
+public class UserRealm extends CasRealm {
     @Resource
     UserMapper userMapper;
     @Resource
     RoleMapper roleMapper;
-
+    @PostConstruct
+    public void initProperty(){
+//      setDefaultRoles("ROLE_USER");
+        setCasServerUrlPrefix(ShiroCasConfiguration.casServerUrlPrefix);
+        // 客户端回调地址
+        setCasService(ShiroCasConfiguration.shiroServerUrlPrefix + ShiroCasConfiguration.casFilterUrlPattern);
+    }
     /*
     授权逻辑
      */
@@ -32,6 +51,10 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+
+//TODO 暂时由于系统没有人员权限问题
+        return authorizationInfo;
+       /*
         User user = (User) principalCollection.getPrimaryPrincipal();
         List<String> permissionsSet = new ArrayList<>();
         //默认使用null不进行权限控制
@@ -45,6 +68,8 @@ public class UserRealm extends AuthorizingRealm {
         authorizationInfo.addStringPermissions(permissionsSet);
 
         return authorizationInfo;
+
+        */
     }
 
 
@@ -55,15 +80,41 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        //获取用户的输入的账号.
-        String username = (String) token.getPrincipal();
-        User user = userMapper.selectOne(new QueryWrapper<User>().eq("user_name", username));
-        if (user == null) {
+        CasToken casToken = (CasToken) token;
+        if (token == null) {
             return null;
         }
-        user = userMapper.getUserById(user.getId());
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), new MyByteSource(user.getUserName()), getName());
 
-        return authenticationInfo;
+        String ticket = (String)casToken.getCredentials();
+        if (!StringUtils.hasText(ticket)) {
+            return null;
+        }
+
+        //ticket检验器
+        TicketValidator ticketValidator = ensureTicketValidator();
+
+        try {
+            // 去CAS服务端中验证ticket的合法性
+            Assertion casAssertion = ticketValidator.validate(ticket, getCasService());
+            // 从CAS服务端中获取相关属性,包括用户名、是否设置RememberMe等
+            AttributePrincipal casPrincipal = casAssertion.getPrincipal();
+            String userId = casPrincipal.getName();
+
+            Map<String, Object> attributes = casPrincipal.getAttributes();
+            // refresh authentication token (user id + remember me)
+            casToken.setUserId(userId);
+            String rememberMeAttributeName = getRememberMeAttributeName();
+            String rememberMeStringValue = (String)attributes.get(rememberMeAttributeName);
+            boolean isRemembered = rememberMeStringValue != null && Boolean.parseBoolean(rememberMeStringValue);
+            if (isRemembered) {
+                casToken.setRememberMe(true);
+            }
+            // 最终创建SimpleAuthencationInfo实体返回给SecurityManager
+            List<Object> principals = CollectionUtils.asList(userId, attributes);
+            PrincipalCollection principalCollection = new SimplePrincipalCollection(principals, getName());
+            return new SimpleAuthenticationInfo(principalCollection, ticket);
+        } catch (TicketValidationException e) {
+            throw new CasAuthenticationException("Unable to validate ticket [" + ticket + "]", e);
+        }
     }
 }
