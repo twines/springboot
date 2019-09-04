@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="getUserById" resultMap="userResultMap">
-    SELECT   u_r.id, u_r.user_name,u_r.password, u_r.real_name, r.id role_id, r.role, r.description, r.available  FROM role r LEFT JOIN (SELECT u.*, ur.role_id FROM user u , user_role ur where  u.id=#{id}) u_r  ON u_r.role_id = r.id
+    SELECT   u_r.id, u_r.user_name,u_r.password, u_r.real_name, r.id role_id, r.role, r.description, r.available  FROM role r right JOIN (SELECT u.*, ur.role_id FROM user u , user_role ur where  u.id=#{id} AND ur.user_id = u.id) u_r  ON u_r.role_id = r.id
 </select>
 <select id="getUserByName" parameterType="java.lang.String">
         SELECT   u_r.id, u_r.user_name, u_r.real_name, r.id role_id, r.role, r.description, r.available  FROM role r LEFT JOIN (SELECT u.*, ur.role_id FROM user u , user_role ur where  u.user_name=#{userName}) u_r  ON u_r.role_id = r.id
