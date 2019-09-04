@@ -31,7 +31,6 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
   session:
     store-type: redis
-
 mybatis-plus:
   #外部化xml配置
   #config-location: classpath:mybatis-config.xml
@@ -78,3 +77,8 @@ mybatis-plus:
       logic-delete-value: 1
       #数据库类型
       db-type: mysql
+cas:
+  server-url-prefix:  http://testld.ldforms.com:88/cas/
+  server-login-url: http://testld.ldforms.com:88/cas/login
+  client-host-url:  http://127.0.0.1:8080
+  validation-type: CAS
