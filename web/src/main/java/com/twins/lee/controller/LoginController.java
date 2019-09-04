@@ -86,8 +86,7 @@ public class LoginController {
 
     @RequestMapping("/userList")
     @ResponseBody
-    @RequiresRoles("vip")
-    @RequiresPermissions("user:list")
+    @RequiresRoles({"admin"})
     public IPage<User> useList(@RequestParam(value = "page", required = false, defaultValue = "1") long p) {
         Page page = new Page<User>(p, 2);
         return iUserService.selectUserByPage(page, 1);

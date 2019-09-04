@@ -1,5 +1,7 @@
 package com.twins.lee.controller;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,7 @@ public class IndexController {
         return "403";
     }
 
-
+    @RequiresRoles(value = {"admin","vip"}, logical = Logical.OR)
     @RequestMapping("/dashboard")
     public String dashboard() {
 
