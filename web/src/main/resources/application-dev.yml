@@ -21,3 +21,13 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+twins:
+  cas-server-url-prefix:  http://testld.ldforms.com:88/cas
+  cas-login-url: http://testld.ldforms.com:88/cas/login
+  cas-logout-url: http://testld.ldforms.com:88/cas/logout
+  shiro-server-url-prefix: http://localhost:8080
+  case-filter-url-patter: /cas
+  login-url:  http://testld.ldforms.com:88/cas/login?service=http://localhost:8080/cas

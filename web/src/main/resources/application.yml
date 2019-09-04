@@ -82,3 +82,11 @@ cas:
   server-login-url: http://testld.ldforms.com:88/cas/login
   client-host-url:  http://127.0.0.1:8080
   validation-type: CAS
+
+twins:
+  cas-server-url-prefix:  http://testld.ldforms.com:88/cas
+  cas-login-url: http://testld.ldforms.com:88/cas/login
+  cas-logout-url: http://testld.ldforms.com:88/cas/logout
+  shiro-server-url-prefix: http://localhost:8080
+  case-filter-url-patter: /cas
+  login-url:  http://testld.ldforms.com:88/cas/login?service=http://localhost:8080/cas

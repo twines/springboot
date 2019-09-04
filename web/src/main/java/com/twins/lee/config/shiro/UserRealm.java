@@ -34,15 +34,17 @@ import java.util.Map;
 
 public class UserRealm extends CasRealm {
     @Resource
+    ShiroCasConfiguration shiroCasConfiguration;
+    @Resource
     UserMapper userMapper;
     @Resource
     RoleMapper roleMapper;
     @PostConstruct
     public void initProperty(){
 //      setDefaultRoles("ROLE_USER");
-        setCasServerUrlPrefix(ShiroCasConfiguration.casServerUrlPrefix);
+        setCasServerUrlPrefix(shiroCasConfiguration.casServerUrlPrefix);
         // 客户端回调地址
-        setCasService(ShiroCasConfiguration.shiroServerUrlPrefix + ShiroCasConfiguration.casFilterUrlPattern);
+        setCasService(shiroCasConfiguration.shiroServerUrlPrefix + shiroCasConfiguration.casFilterUrlPattern);
     }
     /*
     授权逻辑

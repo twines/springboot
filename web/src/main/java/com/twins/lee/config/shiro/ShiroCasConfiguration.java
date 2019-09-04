@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.cas.CasFilter;
 import org.apache.shiro.cas.CasToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,29 +18,37 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 public class ShiroCasConfiguration {
 
+
     // CasServerUrlPrefix
-    public static final String casServerUrlPrefix = "http://testld.ldforms.com:88/cas";
+    @Value("${twins.cas-server-url-prefix}")
+    public String casServerUrlPrefix = " http://testld.ldforms.com:88/cas";
     // Cas登录页面地址
-    public static final String casLoginUrl = casServerUrlPrefix + "/login";
+    @Value("${twins.cas-login-url}")
+    public String casLoginUrl = casServerUrlPrefix + "/login";
     // Cas登出页面地址
-    public static final String casLogoutUrl = casServerUrlPrefix + "/logout";
+    @Value("${twins.cas-logout-url}")
+    public String casLogoutUrl = casServerUrlPrefix + "/logout";
     // 当前工程对外提供的服务地址
-    public static final String shiroServerUrlPrefix = "http://localhost:8080";
+    @Value("${twins.shiro-server-url-prefix}")
+    public String shiroServerUrlPrefix = "http://localhost:8080";
     // casFilter UrlPattern
-    public static final String casFilterUrlPattern = "/cas";
+    @Value("${twins.case-filter-url-patter}")
+    public String casFilterUrlPattern = "/cas";
     // 登录地址
-    public static final String loginUrl = casLoginUrl + "?service=" + shiroServerUrlPrefix + casFilterUrlPattern;
+    @Value("${twins.login-url}")
+    public String loginUrl = casLoginUrl + "?service=" + shiroServerUrlPrefix + casFilterUrlPattern;
 
     /**
      * CAS过滤器
      *
      * @return
      * @author SHANHY
-     * @create  2016年1月17日
+     * @create 2016年1月17日
      */
     @Bean(name = "casFilter")
     public CasFilter getCasFilter() {
-        CasFilter casFilter = new CasFilter() ;
+
+        CasFilter casFilter = new CasFilter();
         casFilter.setName("casFilter");
         casFilter.setEnabled(true);
         // 登录失败后跳转的URL，也就是 Shiro 执行 CasRealm 的 doGetAuthenticationInfo 方法向CasServer验证tiket
