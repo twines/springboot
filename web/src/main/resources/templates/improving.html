@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>完善资料</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-col-md5 layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">统一社会信用代码</label>
+            <div class="layui-input-block">
+                <input lay-verify="required|code" name="code" type="text" placeholder="请手动输入统一社会信用代码" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">请输入法人姓名</label>
+            <div class="layui-input-inline">
+                <input lay-verify="required|name" name="name" type="text" placeholder="请输入法人姓名" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">添加企业营业执照</label>
+            <div class="layui-input-inline">
+                <button type="button" class="layui-btn" id="codePart">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+                <input lay-verify="required|codePart"  id="code-part"  name="code-part" type="text" hidden>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">添加法人身份证</label>
+            <div class="layui-input-inline">
+                <button type="button" class="layui-btn" id="namePart">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+
+                <input lay-verify="required|namePart" id="name-part" name="name-part" type="text" hidden>
+            </div>
+        </div>
+        <button class="layui-btn" lay-submit lay-filter="impovData">提交</button>
+
+    </div>
+
+</div>
+
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'user','upload','jquery', 'form'], function () {
+        var $ = layui.$
+            , setter = layui.setter
+            , admin = layui.admin
+            , form = layui.form
+            , upload = layui.upload
+            , router = layui.router()
+            , search = router.search;
+
+        var codePart = upload.render({
+            elem: '#codePart' //绑定元素
+            ,url: '/user/upload/' //上传接口
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+
+                //上传完毕回调
+                layer.msg(res.msg);
+                $("#code-part").attr("value",res.data);
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+
+            }
+        });
+
+        var namePart = upload.render({
+            elem: '#namePart' //绑定元素
+            ,url: '/user/upload/' //上传接口
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+
+                //上传完毕回调
+                layer.msg(res.msg);
+                $('#name-part').attr("value",res.data);
+                console.log($('#name-part'));
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+
+
+
+        form.render();
+        form.verify({
+            codePart: function (value, item) {
+                console.log(value);
+                if (value.length == 0) {
+                    return "请添加企业营业执照";
+                }
+            },
+            namePart: function (value, item) {
+                if (value.length == 0) {
+                    return "请添加法人身份证";
+                }
+
+            },
+            name: function (value, item) {
+                if (value.length <2 || value.length > 4) {
+                    return "请输入正确的法人姓名";
+                }
+            },
+            code: function (value, item) {
+
+                if(!new RegExp("[0-9]{8}").test(value)){
+                    return '请输入正确的统一社会信用代码';
+                }
+
+            }
+        });
+        //提交
+        form.on('submit(impovData)', function (obj) {
+            console.log(obj.field);
+
+            admin.req({
+                url:'/user/doImpov',
+                method:'POST',
+                data: obj.field,
+                done:function (res) {
+                    layer.msg(res.msg);
+
+                }
+            });
+            return false;
+        });
+
+
+
+
+    });
+</script>
+</body>
+</html>
