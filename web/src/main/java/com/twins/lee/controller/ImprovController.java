@@ -55,11 +55,11 @@ public class ImprovController {
         int rev = improvService.save(improv);
         BaseModel baseModel = null;
 
-        if (ocrCard(improv.getNameUrl(), improv.getCodeUrl(),
-                improv.getCode(), improv.getName()) == false) {
-            baseModel = new BaseModel(BaseModel.Failed, result, "法人姓名或企业营业执照不统一");
-            return baseModel;
-        }
+//        if (ocrCard(improv.getNameUrl(), improv.getCodeUrl(),
+//                improv.getCode(), improv.getName()) == false) {
+//            baseModel = new BaseModel(BaseModel.Failed, result, "法人姓名或企业营业执照不统一");
+//            return baseModel;
+//        }
         if (rev > 0) {
             baseModel = new BaseModel(BaseModel.Success, result, "success");
 
@@ -170,8 +170,34 @@ public class ImprovController {
             }
 
             file.transferTo(dest);
+            class Result {
+                String url;
+                String ocr;
 
-            baseResult = new BaseModel(BaseModel.Success, fileUrl, "success");
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
+                }
+
+                public String getOcr() {
+                    return ocr;
+                }
+
+                public void setOcr(String ocr) {
+                    this.ocr = ocr;
+                }
+
+                public Result(String url, String ocr) {
+
+                    this.url = url;
+                    this.ocr = ocr;
+                }
+            }
+            Result result = new Result(fileUrl, ocrReco(fileUrl));
+            baseResult = new BaseModel(BaseModel.Success, result, "success");
         } catch (Exception e) {
             baseResult = new BaseModel(BaseModel.Exception, e, "success");
 

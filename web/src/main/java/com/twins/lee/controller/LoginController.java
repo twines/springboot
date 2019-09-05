@@ -57,7 +57,7 @@ public class LoginController {
             System.out.println(list);
         value = subject.getPrincipal();
         subject.getSession().setAttribute("user",value);
-        return "redirect:/";
+        return "redirect:/user/improv";
     }
     @RequestMapping("/login")
     public String index() {
