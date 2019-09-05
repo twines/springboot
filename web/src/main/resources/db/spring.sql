@@ -11,11 +11,31 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 04/09/2019 10:52:28
+ Date: 05/09/2019 13:34:54
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for improv
+-- ----------------------------
+DROP TABLE IF EXISTS `improv`;
+CREATE TABLE `improv` (
+  `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL COMMENT '统一社会信用代码',
+  `name` varchar(255) NOT NULL COMMENT '法人姓名',
+  `code_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '企业营业执照',
+  `name_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '法人身份证',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of improv
+-- ----------------------------
+BEGIN;
+INSERT INTO `improv` VALUES (758, '12345678', '323', '/tmp/8b83122d-0fb2-4325-9ac5-6602da53e1f1.png', '/tmp/0fe9f07d-90fa-4029-839b-2fcc3c3fcc39.jpg');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for permission
