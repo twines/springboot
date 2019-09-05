@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 public class Improv implements Serializable {
-    private String id;
+    private Long id;
     private String code;
     @TableField("code_url")
     private String codeUrl;
@@ -15,11 +15,11 @@ public class Improv implements Serializable {
     @TableField("name_url")
     private String nameUrl;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

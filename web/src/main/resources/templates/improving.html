@@ -139,21 +139,22 @@
         });
         //提交
         form.on('submit(impovData)', function (obj) {
-            console.log(obj.field);
+            layer.load(); //上传loading
 
             admin.req({
                 url:'/user/doImpov',
                 method:'POST',
                 data: obj.field,
+
                 done:function (res) {
+                    layer.closeAll('loading'); //关闭loading
+
                     layer.msg(res.msg);
 
                 }
             });
             return false;
         });
-
-
 
 
     });
