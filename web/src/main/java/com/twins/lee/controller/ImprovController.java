@@ -3,6 +3,9 @@ package com.twins.lee.controller;
 import com.twins.lee.entity.Improv;
 import com.twins.lee.model.BaseModel;
 import com.twins.lee.service.IImprovService;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/user")
@@ -24,16 +29,16 @@ public class ImprovController {
     IImprovService improvService;
 
     @GetMapping("/improv")
-    String index(){
+    String index() {
         return "improving";
     }
 
     @PostMapping("/doImpov")
     @ResponseBody
     BaseModel improv(@RequestParam("code") String code,
-                  @RequestParam("code-part") String codePart,
-                  @RequestParam("name-part") String namePart,
-                  @RequestParam("name") String name) {
+                     @RequestParam("code-part") String codePart,
+                     @RequestParam("name-part") String namePart,
+                     @RequestParam("name") String name) {
         Subject subject = SecurityUtils.getSubject();
         List<Object> principals = subject.getPrincipals().asList();
         Map<String, String> user = (Map<String, String>) principals.get(principals.size() - 1);
@@ -45,18 +50,93 @@ public class ImprovController {
         improv.setCodeUrl(codePart);
         improv.setName(name);
         improv.setNameUrl(namePart);
-        improv.setId(user.get("id"));
+        improv.setId(Long.parseLong(user.get("id")));
+
         int rev = improvService.save(improv);
         BaseModel baseModel = null;
-        if (rev > 0) {
-             baseModel = new BaseModel(BaseModel.Success, result, "success");
 
-        }else{
-             baseModel = new BaseModel(BaseModel.Failed, result, "数据保存失败");
+        if (ocrCard(improv.getNameUrl(), improv.getCodeUrl(),
+                improv.getCode(), improv.getName()) == false) {
+            baseModel = new BaseModel(BaseModel.Failed, result, "法人姓名或企业营业执照不统一");
+            return baseModel;
+        }
+        if (rev > 0) {
+            baseModel = new BaseModel(BaseModel.Success, result, "success");
+
+        } else {
+            baseModel = new BaseModel(BaseModel.Failed, result, "数据保存失败");
 
         }
 
+
         return baseModel;
+    }
+
+
+    protected boolean ocrCard(String idCardPath, String cardPath,
+                              String inputCode, String inputName) {
+        String idCardOcrResult = ocrReco(idCardPath);
+
+        Pattern pattern = Pattern.compile("名[^\\x00-\\xff]{2,4}");
+        Matcher matcher = pattern.matcher(idCardOcrResult);
+        String idName = null;
+        if (matcher.find()) {
+            idName = matcher.group();
+        }
+        idName = idName.replace("名", "");
+
+        //统一码
+        String code = null;
+        //法人
+        String fName = null;
+        String cardOcrResult = ocrReco(cardPath);
+        pattern = Pattern.compile("社会信用代码+\\d+p");
+        matcher = pattern.matcher(cardOcrResult);
+        if (matcher.find()) {
+            code = matcher.group();
+            code = code.replace("社会信用代码", "")
+                    .replace("p", "");
+        }
+        matcher = Pattern.compile("D法定代表人[^\\x00-\\xff]{2,4},C").matcher(cardOcrResult);
+        if (matcher.find()) {
+            fName = matcher.group();
+            fName = fName.replace("D法定代表人", "")
+                    .replace(",C", "");
+        }
+        if ((fName.equals(idName) && idName.equals(inputName)) && code.equals(inputCode)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected String ocrReco(String imgPath) {
+        String sysPath = fileDestPath();
+        String tranPath = sysPath;
+        String destPath = sysPath + "/static" + imgPath;
+        File imageFile = new File(destPath);
+        ITesseract instance = new Tesseract();
+        instance.setDatapath(tranPath);
+        instance.setLanguage("chi_sim");
+//        instance.setLanguage("eng");
+
+        try {
+            String result = instance.doOCR(imageFile).replace(" ", "");
+
+            return result;
+        } catch (TesseractException e) {
+            return null;
+        }
+    }
+
+    private String fileDestPath() {
+        String filePath = null;
+        try {
+            filePath = ResourceUtils.getFile("classpath:").getAbsolutePath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return filePath;
     }
 
     @RequestMapping("/upload")
@@ -76,12 +156,12 @@ public class ImprovController {
 
             // 文件上传路径
             String filePath = null;
-            filePath = ResourceUtils.getFile("classpath:").getAbsolutePath();
+            filePath = fileDestPath();
 
             // 解决中文问题，liunx下中文路径，图片显示问题
             fileName = UUID.randomUUID() + suffixName;
             String fileUrl = "/tmp/" + fileName;
-            filePath = filePath +"/static"+ fileUrl;
+            filePath = filePath + "/static" + fileUrl;
             File dest = new File(filePath);
 
             // 检测是否存在目录
@@ -92,7 +172,7 @@ public class ImprovController {
             file.transferTo(dest);
 
             baseResult = new BaseModel(BaseModel.Success, fileUrl, "success");
-         } catch (Exception e) {
+        } catch (Exception e) {
             baseResult = new BaseModel(BaseModel.Exception, e, "success");
 
         }
