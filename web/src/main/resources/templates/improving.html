@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="layui-container">
-    <div class="layui-col-md5 layui-form">
+    <div class="layui-form layui-col-md10 layui-col-sm6">
         <div class="layui-form-item">
             <label class="layui-form-label">统一社会信用代码</label>
 
@@ -22,19 +22,39 @@
                        autocomplete="off"
                        class="layui-input">
                 <input id="code-tmp" hidden>
-                <input id="code-name-tmp" hidden>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">请输入法人姓名</label>
-            <div class="layui-input-inline">
-                <input lay-verify="required|name" id="name-input" name="name" type="text" placeholder="请输入法人姓名"
-                       autocomplete="off">
-                <input id="name-tmp" hidden>
             </div>
         </div>
 
         <div class="layui-form-item">
+            <div class="layui-row">
+                <label class="layui-form-label">法人姓名</label>
+                <div class="layui-input-block ">
+                    <input class="layui-input" id="code-name-tmp" placeholder="法人姓名（上传执照识别）" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required|name" id="name-input" name="name" type="text"
+                       placeholder="推荐上传身份证件自动识别"
+                       autocomplete="off">
+                <input id="name-tmp" hidden>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">法人身份证号</label>
+            <div class="layui-input-block">
+                <input class="layui-input"  id="id-input" name="id" type="text"
+                       placeholder="推荐上传身份证件自动识别"
+                       disabled
+                       autocomplete="off">
+                <input id="id-tmp" hidden>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-row">
             <label class="layui-form-label">添加企业营业执照</label>
             <div class="layui-input-inline">
                 <button type="button" class="layui-btn" id="codePart">
@@ -92,7 +112,9 @@
                 var nameValue = res.data.ocr.match(/D法定代表人[^\x00-\xff]{2,4},C/)[0].replace("D法定代表人", "")
                     .replace(",C", "");
                 $('#code-tmp').attr("value", codeValue);
+                $('#code-input').attr("value", codeValue);
                 $('#code-name-tmp').attr("value", nameValue);
+                console.log(res.data.ocr);
 
             }
             , error: function () {
@@ -115,8 +137,15 @@
                 layer.msg(res.msg);
                 $('#name-part').attr("value", res.data.url);
                 var regValue = res.data.ocr.match(/名[^\\x00-\\xff]{2,4}/)[0].replace("名", "");
+                var idValue = res.data.ocr.match(/\d{6}(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)/)[0].replace("名", "");
                 $('#name-tmp').attr("value", regValue);
+                $('#name-input').attr("value", regValue);
+
+                $('#id-input').attr("value", idValue);
+
+
                 console.log(regValue);
+                console.log(idValue);
                 console.log(res.data.ocr);
             }
             , error: function () {
