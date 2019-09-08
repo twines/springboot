@@ -7,6 +7,17 @@ import java.io.Serializable;
 
 @Data
 public class Improv implements Serializable {
+   public static class State {
+
+        //待完善
+        public static final int NeededInproved = 0;
+        //已经完善
+        public static final int Improved = 1;
+        //        请求征信中
+        public static final int CreditReporting = 2;
+//        public  static  final  int
+    }
+
     private Long id;
     private String code;
     @TableField("code_url")
@@ -14,6 +25,15 @@ public class Improv implements Serializable {
     private String name;
     @TableField("name_url")
     private String nameUrl;
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public Long getId() {
         return id;

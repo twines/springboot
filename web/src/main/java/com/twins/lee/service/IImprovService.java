@@ -4,4 +4,8 @@ import com.twins.lee.entity.Improv;
 
 public interface IImprovService {
     int save(Improv improv);
+
+    //资料是否完善进度
+    int UserImproveResultById(Long usrId);
+
 }

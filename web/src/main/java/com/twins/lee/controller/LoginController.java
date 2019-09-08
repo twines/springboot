@@ -3,10 +3,13 @@ package com.twins.lee.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.twins.lee.config.shiro.ShiroCasConfiguration;
+import com.twins.lee.entity.Improv;
 import com.twins.lee.entity.User;
 import com.twins.lee.model.BaseModel;
 import com.twins.lee.service.IUserService;
+import com.twins.lee.service.impl.ImprovService;
 import com.twins.lee.utilites.CodecTool;
+import com.twins.lee.utilites.ShiroUtility;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -32,9 +35,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class LoginController {
+    @Autowired
+    ImprovService improvService;
+
     @Resource
     ShiroCasConfiguration shiroCasConfiguration;
     @Value("${environment}")
@@ -47,18 +54,27 @@ public class LoginController {
     private StringRedisTemplate redisTemplate;
 
     @GetMapping("/cas")
-     public String casTicket(@RequestParam("ticket") String ticket) {
+    public String casTicket(@RequestParam("ticket") String ticket) {
         Object value = null;
         CasToken casToken = new CasToken(ticket);
         casToken.setRememberMe(true);
-         Subject subject =   SecurityUtils.getSubject();
-            subject.login(casToken);
-            List list = subject.getPrincipals().asList();
-            System.out.println(list);
+        Subject subject = SecurityUtils.getSubject();
+        subject.login(casToken);
+        List list = subject.getPrincipals().asList();
+        System.out.println(list);
         value = subject.getPrincipal();
-        subject.getSession().setAttribute("user",value);
+        subject.getSession().setAttribute("user", value);
+
+        if (ShiroUtility.isLogin()) {
+            Map<String, String> userInfo = ShiroUtility.casResut();
+            Long userId = Long.valueOf(userInfo.get("id"));
+            if (improvService.UserImproveResultById(userId) != Improv.State.NeededInproved) {
+                return "redirect:/";
+            }
+        }
         return "redirect:/user/improv";
     }
+
     @RequestMapping("/login")
     public String index() {
         return "redirect:" + shiroCasConfiguration.loginUrl;
@@ -81,7 +97,7 @@ public class LoginController {
 
                 subject.login(token);
             }
-             //正常登录
+            //正常登录
             User user = iUserService.getUserById(1);
             resultModel = new BaseModel<>(BaseModel.Success, user);
         } catch (UnknownAccountException e) {
@@ -91,7 +107,7 @@ public class LoginController {
 
         } catch (IncorrectCredentialsException e) {
             resultModel = new BaseModel<>(BaseModel.PasswordError, null, e.getLocalizedMessage());
-        }catch (LockedAccountException e) {
+        } catch (LockedAccountException e) {
             resultModel = new BaseModel<>(BaseModel.UserStateError, null, e.getLocalizedMessage());
         }
         return resultModel;
