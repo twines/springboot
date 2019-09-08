@@ -14,3 +14,10 @@ spring:
         max-idle: 100
         min-idle: 1
         max-active: 1000
+twins:
+  cas-server-url-prefix:  http://login.ldforms.com:88/cas
+  cas-login-url: http://login.ldforms.com:88/cas/login
+  cas-logout-url: http://login.ldforms.com:88/cas/logout
+  shiro-server-url-prefix: http://localhost:8080
+  case-filter-url-patter: /cas
+  login-url:  http://login.ldforms.com:88/cas/login?service=http://localhost:8080/cas

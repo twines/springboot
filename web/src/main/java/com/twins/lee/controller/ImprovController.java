@@ -3,6 +3,7 @@ package com.twins.lee.controller;
 import com.twins.lee.entity.Improv;
 import com.twins.lee.model.BaseModel;
 import com.twins.lee.service.IImprovService;
+import com.twins.lee.utilites.ShiroUtility;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -30,6 +31,16 @@ public class ImprovController {
 
     @GetMapping("/improv")
     String index() {
+
+        Subject subject = SecurityUtils.getSubject();
+        Object value = subject.getPrincipal();
+        if (ShiroUtility.isLogin()) {
+            Map<String, String> userInfo = ShiroUtility.casResut();
+            Long userId = Long.valueOf(userInfo.get("id"));
+            if (improvService.UserImproveResultById(userId) != Improv.State.NeededInproved) {
+                return "redirect:/";
+            }
+        }
         return "improving";
     }
 
@@ -39,6 +50,7 @@ public class ImprovController {
                      @RequestParam("code-part") String codePart,
                      @RequestParam("name-part") String namePart,
                      @RequestParam("name") String name) {
+
         Subject subject = SecurityUtils.getSubject();
         List<Object> principals = subject.getPrincipals().asList();
         Map<String, String> user = (Map<String, String>) principals.get(principals.size() - 1);

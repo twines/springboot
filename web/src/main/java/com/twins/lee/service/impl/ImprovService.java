@@ -21,4 +21,13 @@ public class ImprovService implements IImprovService {
         int result = improvMapper.insert(improv);
         return result;
     }
+
+    @Override
+    public int UserImproveResultById(Long usrId) {
+
+        Improv improv = improvMapper.selectById(usrId);
+        return improv.getState();
+    }
+
+
 }
