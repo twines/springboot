@@ -448,11 +448,38 @@
 
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
+
+    function showImprovNotice() {
+        var qymc_cn =  `[[${userInfo}]]`;
+        layer.open({
+            type: 1
+            ,title: false //不显示标题栏
+            ,closeBtn: false
+            ,area: '350px;'
+            ,shade: 0.8
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,btn: [ '知道啦立即补全','下次吧']
+            ,btnAlign: 'c'
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">您好,[[${userInfo.qymc_cn}]]！<br><br>根据需要您需要补全相关证件<br><br>1 法人身份证<br><br>2 营业执照</div>'
+            ,success: function(layero){
+                var btn = layero.find('.layui-layer-btn');
+                btn.find('.layui-layer-btn0').attr({
+                    href: '/user/improv'
+                    ,target: '_blank'
+                });
+            }
+        });
+    }
+
     layui.config({
         base: '../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use('index');
+    }).use(['index', 'user', 'upload', 'jquery', 'form'], function () {
+        showImprovNotice();
+
+    });
 </script>
 </body>
 </html>

@@ -6,6 +6,7 @@ import com.twins.lee.entity.Role;
 import com.twins.lee.entity.User;
 import com.twins.lee.mapper.RoleMapper;
 import com.twins.lee.mapper.UserMapper;
+import com.twins.lee.utilites.Utility;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -28,6 +29,7 @@ import org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveDa
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -112,10 +114,10 @@ public class UserRealm extends CasRealm {
                 casToken.setRememberMe(true);
             }
             // 最终创建SimpleAuthencationInfo实体返回给SecurityManager
-            List<Object> principals = CollectionUtils.asList(userId, attributes);
+            List<Object> principals = CollectionUtils.asList(userId, Utility.decodeLeDanInfo( attributes));
             PrincipalCollection principalCollection = new SimplePrincipalCollection(principals, getName());
             return new SimpleAuthenticationInfo(principalCollection, ticket);
-        } catch (TicketValidationException e) {
+        } catch (TicketValidationException | UnsupportedEncodingException e) {
             throw new CasAuthenticationException("Unable to validate ticket [" + ticket + "]", e);
         }
     }

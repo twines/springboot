@@ -19,6 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.cas.CasToken;
 import org.apache.shiro.subject.Subject;
+import org.hibernate.validator.constraints.URL;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ public class LoginController {
     private StringRedisTemplate redisTemplate;
 
     @GetMapping("/cas")
-    public String casTicket(@RequestParam("ticket") String ticket) {
+    public String casTicket(@RequestParam("ticket") String ticket) throws UnsupportedEncodingException {
         Object value = null;
         CasToken casToken = new CasToken(ticket);
         casToken.setRememberMe(true);
@@ -65,15 +67,15 @@ public class LoginController {
         value = subject.getPrincipal();
         subject.getSession().setAttribute("user", value);
 
-        if (ShiroUtility.isLogin()) {
-            Map<String, String> userInfo = ShiroUtility.casResut();
-            Long userId = Long.valueOf(userInfo.get("id"));
-          Improv improv =  improvService.UserImproveResultById(userId);
-            if (improv !=null  && improv.getState() != Improv.State.NeededInproved) {
-                return "redirect:/";
-            }
-        }
-        return "redirect:/user/improv";
+//        if (ShiroUtility.isLogin()) {
+//            Map<String, String> userInfo = ShiroUtility.casResut();
+//            Long userId = Long.valueOf(userInfo.get("id"));
+//          Improv improv =  improvService.UserImproveResultById(userId);
+//            if (improv !=null  && improv.getState() != Improv.State.NeededInproved) {
+//                return "redirect:/";
+//            }
+//        }
+        return "redirect:/";
     }
 
     @RequestMapping("/login")

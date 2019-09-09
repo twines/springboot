@@ -3,13 +3,17 @@ package com.twins.lee.controller;
 import com.twins.lee.entity.Improv;
 import com.twins.lee.service.impl.ImprovService;
 import com.twins.lee.utilites.ShiroUtility;
+import com.twins.lee.utilites.Utility;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
@@ -20,24 +24,30 @@ public class IndexController {
     private String environment;
 
     @RequestMapping("/")
-    public String index() {
+    public String index(Model model) throws UnsupportedEncodingException {
         System.out.print(this.environment);
         Subject subject = SecurityUtils.getSubject();
         Object value = subject.getPrincipal();
-        if (ShiroUtility.isLogin()) {
-            Map<String, String> userInfo = ShiroUtility.casResut();
-            Long userId = Long.valueOf(userInfo.get("id"));
-            Improv improv = improvService.UserImproveResultById(userId);
-//            if (improv == null) {
-//                return "/";
+//        if (ShiroUtility.isLogin()) {
+//            Map<String, String> userInfo = ShiroUtility.casResut();
+//            Long userId = Long.valueOf(userInfo.get("id"));
+//            Improv improv = improvService.UserImproveResultById(userId);
+////            if (improv == null) {
+////                return "/";
+////            }
+//            if (improv ==null || improv.getState() == Improv.State.NeededInproved) {
+//                return "redirect:/user/improv";
 //            }
-            if (improv ==null || improv.getState() == Improv.State.NeededInproved) {
-                return "redirect:/user/improv";
-            }
-        }
+//        }
 
-            return "index";
-     }
+        Map<String, String> userInfo = new LinkedHashMap<>();
+        if (ShiroUtility.isLogin()) {
+            Map<String, String> info = ShiroUtility.casResut();
+            userInfo.putAll(info);
+        }
+        model.addAttribute("userInfo", userInfo);
+        return "index";
+    }
 
     @RequestMapping("/home")
     public String home() {

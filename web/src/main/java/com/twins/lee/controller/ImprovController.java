@@ -38,7 +38,7 @@ public class ImprovController {
             Map<String, String> userInfo = ShiroUtility.casResut();
             Long userId = Long.valueOf(userInfo.get("id"));
             Improv improv = improvService.UserImproveResultById(userId);
-            if ( improv !=null && improv.getState() != Improv.State.NeededInproved) {
+            if (improv != null && improv.getState() != Improv.State.NeededInproved) {
                 return "redirect:/";
             }
         }
@@ -64,7 +64,7 @@ public class ImprovController {
         improv.setName(name);
         improv.setNameUrl(namePart);
         improv.setId(Long.parseLong(user.get("id")));
-
+        improv.setState(Improv.State.Improved);
         int rev = improvService.save(improv);
         BaseModel baseModel = null;
 
