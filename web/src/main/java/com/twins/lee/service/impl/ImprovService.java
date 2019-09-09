@@ -23,10 +23,10 @@ public class ImprovService implements IImprovService {
     }
 
     @Override
-    public int UserImproveResultById(Long usrId) {
+    public Improv UserImproveResultById(Long usrId) {
 
         Improv improv = improvMapper.selectById(usrId);
-        return improv.getState();
+        return  improv;
     }
 
 

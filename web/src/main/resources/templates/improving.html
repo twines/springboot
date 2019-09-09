@@ -106,10 +106,19 @@
 
                 //上传完毕回调
                 layer.msg(res.msg);
-                $("#code-part").attr("value", res.data);
-
-                var codeValue = res.data.ocr.match(/社会信用代码+\d+p/)[0].match(/\d+/);
-                var nameValue = res.data.ocr.match(/D法定代表人[^\x00-\xff]{2,4},C/)[0].replace("D法定代表人", "")
+                $("#code-part").attr("value", res.data.url);
+                var regValue = res.data.ocr.match(/社会信用代码+\d+p/);
+                if (regValue == null || regValue.length == 0) {
+                    layer.msg("无法识别营业执照中社会信用代码请重新上传");
+                    return;
+                }
+                var codeValue = regValue[0].match(/\d+/);
+                regValue = res.data.ocr.match(/D法定代表人[^\x00-\xff]{2,4},C/);
+                if (regValue == null || regValue.length == 0) {
+                    layer.msg("无法识别营业执照中的法人姓名请重新上传");
+                    return;
+                }
+                var nameValue = regValue[0].replace("D法定代表人", "")
                     .replace(",C", "");
                 $('#code-tmp').attr("value", codeValue);
                 $('#code-input').attr("value", codeValue);
@@ -136,10 +145,15 @@
                 //上传完毕回调
                 layer.msg(res.msg);
                 $('#name-part').attr("value", res.data.url);
-                var regValue = res.data.ocr.match(/名[^\\x00-\\xff]{2,4}/)[0].replace("名", "");
+                var regValue = res.data.ocr.match(/名[^\\x00-\\xff]{2,4}/);
+                if (regValue == null || regValue.length == 0) {
+                    layer.msg("无法识别法人身份证姓名请重新上传");
+                    return;
+                }
+                var nameValue =   regValue[0].replace("名", "");
                 var idValue = res.data.ocr.match(/\d{6}(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)/)[0].replace("名", "");
-                $('#name-tmp').attr("value", regValue);
-                $('#name-input').attr("value", regValue);
+                $('#name-tmp').attr("value", nameValue);
+                $('#name-input').attr("value", nameValue);
 
                 $('#id-input').attr("value", idValue);
 
@@ -191,7 +205,6 @@
         });
         //提交
         form.on('submit(impovData)', function (obj) {
-            layer.load(); //上传loading
 
             //输入的代码
             var codeInput = $("#code-input").val();
@@ -216,24 +229,31 @@
             if (codeOcr !== codeInput) {
 
                 layer.msg("请检查统一社会信用代码");
-                layer.closeAll('loading'); //关闭loading
 
                 return;
             }
 
 
-            if (nameInput !== nameOcr) {
-                layer.msg("请核对法人姓名");
-                layer.closeAll('loading'); //关闭loading
+            // if (nameInput !== nameOcr) {
+            //     layer.msg("请核对法人姓名");
+            //     layer.closeAll('loading'); //关闭loading
+            //
+            //     return;
+            // }
+            // if (nameOcr !== codeName) {
+            //     layer.msg("法人身份与营业执照不符合");
+            //     layer.closeAll('loading'); //关闭loading
+            //
+            //     return;
+            // }
 
-                return;
+            if (codeName !== nameInput || nameInput !== nameOcr){
+                var msg = "法人姓名与身份证识别输入不一致";
+                layer.msg(msg);
+                return ;
             }
-            if (nameOcr !== codeName) {
-                layer.msg("法人身份与营业执照不符合");
-                layer.closeAll('loading'); //关闭loading
+            layer.load(); //上传loading
 
-                return;
-            }
             admin.req({
                 url: '/user/doImpov',
                 method: 'POST',
