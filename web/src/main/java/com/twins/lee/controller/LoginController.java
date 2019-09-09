@@ -68,7 +68,8 @@ public class LoginController {
         if (ShiroUtility.isLogin()) {
             Map<String, String> userInfo = ShiroUtility.casResut();
             Long userId = Long.valueOf(userInfo.get("id"));
-            if (improvService.UserImproveResultById(userId) != Improv.State.NeededInproved) {
+          Improv improv =  improvService.UserImproveResultById(userId);
+            if (improv !=null  && improv.getState() != Improv.State.NeededInproved) {
                 return "redirect:/";
             }
         }
