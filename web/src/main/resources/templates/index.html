@@ -67,7 +67,7 @@
                         <cite>[[${userInfo.name}]]</cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="/user/info">基本资料</a></dd>
+                        <dd th:if="${userInfo.state gt 0}"><a lay-href="/user/info">基本资料</a></dd>
                         <dd><a lay-href="set/user/password.html">修改密码</a></dd>
                         <hr>
                         <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
@@ -105,7 +105,7 @@
                             <dd data-name="console" class="layui-this">
                                 <a lay-href="/dashboard">控制台</a>
                             </dd>
-                            <dd data-name="improv" >
+                            <dd data-name="improv" th:if="${userInfo.state gt 0}">
                                 <a lay-href="/user/info">查看资料</a>
                             </dd>
                             <dd data-name="console">
@@ -398,7 +398,7 @@
                             <dd class="layui-nav-itemed">
                                 <a href="javascript:;">我的设置</a>
                                 <dl class="layui-nav-child">
-                                    <dd><a lay-href="set/user/info.html">基本资料</a></dd>
+                                    <dd th:if="${userInfo.state gt 0}"><a lay-href="set/user/info.html">基本资料</a></dd>
                                     <dd><a lay-href="set/user/password.html">修改密码</a></dd>
                                 </dl>
                             </dd>
