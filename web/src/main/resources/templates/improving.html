@@ -104,27 +104,26 @@
             , done: function (res) {
                 layer.closeAll('loading'); //关闭loading
 
-                //上传完毕回调
                 layer.msg(res.msg);
                 $("#code-part").attr("value", res.data.url);
-                var regValue = res.data.ocr.match(/社会信用代码+\d+p/);
+                var regValue = res.data.ocr.match(/统一社会信用代码+[0-9a-zA-Z]+/);
+                console.log(regValue);
                 if (regValue == null || regValue.length == 0) {
                     layer.msg("无法识别营业执照中社会信用代码请重新上传");
                     return;
                 }
-                var codeValue = regValue[0].match(/\d+/);
-                regValue = res.data.ocr.match(/D法定代表人[^\x00-\xff]{2,4},C/);
+                var codeValue = regValue[0].replace("统一社会信用代码","");
+                regValue = res.data.ocr.match(/法定代表人[^\x00-\xff]{2,4}/);
                 if (regValue == null || regValue.length == 0) {
                     layer.msg("无法识别营业执照中的法人姓名请重新上传");
                     return;
                 }
-                var nameValue = regValue[0].replace("D法定代表人", "")
+                var nameValue = regValue[0].replace("法定代表人", "")
                     .replace(",C", "");
                 $('#code-tmp').attr("value", codeValue);
                 $('#code-input').attr("value", codeValue);
                 $('#code-name-tmp').attr("value", nameValue);
                 console.log(res.data.ocr);
-
             }
             , error: function () {
                 //请求异常回调
