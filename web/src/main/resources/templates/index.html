@@ -483,8 +483,10 @@
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user', 'upload', 'jquery', 'form'], function () {
-        showImprovNotice();
-
+        var state = [[${userInfo.state}]];
+        if (state == 0) {
+            showImprovNotice();
+        }
     });
 </script>
 </body>
