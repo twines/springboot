@@ -40,11 +40,21 @@ public class IndexController {
 //            }
 //        }
 
-        Map<String, String> userInfo = new LinkedHashMap<>();
+        Map<String, Object> userInfo = new LinkedHashMap<>();
         if (ShiroUtility.isLogin()) {
             Map<String, String> info = ShiroUtility.casResut();
+
             userInfo.putAll(info);
         }
+        Improv improv = improvService.UserImproveResultById(Utility.userId());
+        if (improv == null) {
+
+            userInfo.put("state", Improv.State.NeededInproved);
+        }else{
+            userInfo.put("state", improv.getState());
+        }
+
+
         model.addAttribute("userInfo", userInfo);
         return "index";
     }
