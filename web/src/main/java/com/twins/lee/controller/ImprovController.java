@@ -4,11 +4,13 @@ import com.twins.lee.entity.Improv;
 import com.twins.lee.model.BaseModel;
 import com.twins.lee.service.IImprovService;
 import com.twins.lee.utilites.ShiroUtility;
+import com.twins.lee.utilites.Utility;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,8 @@ import java.util.regex.Pattern;
 public class ImprovController {
     @Resource
     IImprovService improvService;
+    @Value("${twins.uploadFolder}")
+    private String docLocation;
 
     @GetMapping("/improv")
     String index() {
@@ -126,6 +130,9 @@ public class ImprovController {
         String sysPath = fileDestPath();
         String tranPath = sysPath;
         String destPath = sysPath + "/static" + imgPath;
+        if (docLocation != null) {
+            destPath = docLocation + imgPath;
+        }
         File imageFile = new File(destPath);
         ITesseract instance = new Tesseract();
         instance.setDatapath(tranPath);
@@ -149,6 +156,7 @@ public class ImprovController {
             e.printStackTrace();
             return null;
         }
+
         return filePath;
     }
 
@@ -170,11 +178,16 @@ public class ImprovController {
             // 文件上传路径
             String filePath = null;
             filePath = fileDestPath();
+            if (docLocation != null) {
+                filePath = docLocation;
+            }
+            //用户目录
+            String userDir = Utility.userId().toString();
 
             // 解决中文问题，liunx下中文路径，图片显示问题
             fileName = UUID.randomUUID() + suffixName;
-            String fileUrl = "/tmp/" + fileName;
-            filePath = filePath + "/static" + fileUrl;
+            String fileUrl = "/"+userDir+"/" + fileName;
+            filePath = filePath  + fileUrl;
             File dest = new File(filePath);
 
             // 检测是否存在目录
