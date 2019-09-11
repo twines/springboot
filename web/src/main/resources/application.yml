@@ -94,4 +94,4 @@ twins:
   staticAccessPath: /upload/**
   #静态文件存储路径（最后带/ 访问路径 upload/xxx/xxx）
   #最后路径不带/  需要把最后文件夹添加 访问路径 upload/doc/xxx/xx
-  uploadFolder:  /Users/sk/doc
+  uploadFolder:  /Users/sk/doc/
