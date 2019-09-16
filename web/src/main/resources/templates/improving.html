@@ -191,7 +191,7 @@
                 }
             },
             code: function (value, item) {
-                var result = value.match(/[0-9]{18}/)[0];
+                var result = value.match(/[0-9a-zA-Z]{17,20}/)[0];
                 console.log(value);
                 console.log(result);
                 if (result === undefined) {
