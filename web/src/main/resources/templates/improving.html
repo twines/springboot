@@ -13,7 +13,69 @@
 </head>
 <body>
 <div class="layui-container">
-    <div class="layui-form layui-col-md10 layui-col-sm6">
+    <div>
+        <label>暂未认证企业</label>
+    </div>
+    <hr>
+    <!--    说明-->
+    <div id="user-tips" class="layui-row">
+        <div class="layui-row">
+
+            <label>企业认证所需资料
+                <span>为保证认证顺利，请提前准备好以下资料</span>
+            </label>
+        </div>
+        <div class="layui-row">
+            <span>附件仅支持 JPG、JPEG、PNG、PDF 四种格式，单个文件大小不超过5.0 MB</span>
+        </div>
+
+        <div>
+            <div>
+                <h1>一、企业证件</h1>
+                <h2>中国大陆：营业执照(三证合一无需准备其他企业证件)、组织机构代码证、税务登记证
+                </h2>
+                <div class="layui-row">
+                    <button class="layui-btn"><a href="#"> 三证合一样图</a></button>
+                    <button class="layui-btn"><a href="#"> 营业执照样图</a></button>
+                    <button class="layui-btn"><a href="#"> 组织机构代码证样图</a></button>
+                    <button class="layui-btn"><a href="#"> 税务登记证样图</a></button>
+                </div>
+            </div>
+            <br>
+            <div>
+                <h1>二、重要组成人员身份证明文件</h1>
+                <h2>法定代表人、企业董事、实际控股人和持股10%及以上的股东身份证正面持照照片、反面证件照片；</h2>
+                <div class="layui-row">
+                    <button class="layui-btn"><a href="#"> 身份证证正面样图</a></button>
+                    <button class="layui-btn"><a href="#"> 身份证反面样图</a></button>
+                </div>
+            </div>
+            <br>
+            <div>
+                <h1>三、第三方证明文件</h1>
+                <h2>若您是被授权人，请填写授权书(点击下载)，加盖公司公章(个体工商户可按法人代表手印)</h2>
+                <div class="layui-row">
+                    <button  class="layui-btn"><a href="#"> 授权书样图</a></button>
+                </div>
+            </div>
+            <br>
+            <div>
+                <h1>四、开户申请表</h1>
+                <h2>请填写开户申请表(点击下载)后加盖公司公章(个体工商户可按法人代表手印)</h2>
+                <div class="layui-row">
+                    <button  class="layui-btn"><a href="#"> 开户申请表样图</a></button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="layui-row">
+            <button id="start-confirm" class="layui-btn">我已阅读上述说明，开始认证</button>
+        </div>
+
+    </div>
+    <!--    填写过程-->
+    <div id="user-input"  class="layui-hide layui-form layui-col-md10 layui-col-sm6">
         <div class="layui-form-item">
             <label class="layui-form-label">统一社会信用代码</label>
 
@@ -46,7 +108,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">法人身份证号</label>
             <div class="layui-input-block">
-                <input class="layui-input"  id="id-input" name="id" type="text"
+                <input class="layui-input" id="id-input" name="id" type="text"
                        placeholder="推荐上传身份证件自动识别"
                        disabled
                        autocomplete="off">
@@ -58,21 +120,31 @@
             <label class="layui-form-label">添加企业营业执照</label>
             <div class="layui-input-inline">
                 <button type="button" class="layui-btn" id="codePart">
-                    <i class="layui-icon">&#xe67c;</i>上传图片
+                    <i class="layui-icon">&#xe67c;</i>上传营业执照
                 </button>
                 <input lay-verify="required|codePart" id="code-part" name="code-part" type="text" hidden>
             </div>
+            <button class="layui-btn"><a class="layui-inline" href="/upload/758/54b92a35-6346-4ff0-ac4e-54dfdcc72745.jpg">企业营业执照样张</a>
+            </button>
+
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">添加法人身份证</label>
             <div class="layui-input-inline">
-                <button type="button" class="layui-btn" id="namePart">
-                    <i class="layui-icon">&#xe67c;</i>上传图片
-                </button>
+                <div class="layui-row">
+                    <button type="button" class="layui-btn" id="namePart">
+                        <i class="layui-icon">&#xe67c;</i>上传法人身份证
+                    </button>
+                </div>
+
 
                 <input lay-verify="required|namePart" id="name-part" name="name-part" type="text" hidden>
             </div>
+            <button class="layui-btn"><a class="layui-inline" href="/upload/758/54b92a35-6346-4ff0-ac4e-54dfdcc72745.jpg">身份证样张</a>
+            </button>
+
         </div>
+
         <button class="layui-btn" lay-submit lay-filter="impovData">提交</button>
 
     </div>
@@ -81,12 +153,19 @@
 
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
-
+    function startConfirm($) {
+        $(document).on('click','#start-confirm',function(){
+            // layer.msg('hello');
+            $("#user-input").removeClass("layui-hide");
+            $("#user-tips").addClass("layui-hide");
+        });
+    }
     layui.config({
         base: '/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'user', 'upload', 'jquery', 'form'], function () {
+
         var $ = layui.$
             , setter = layui.setter
             , admin = layui.admin
@@ -94,6 +173,7 @@
             , upload = layui.upload
             , router = layui.router()
             , search = router.search;
+        startConfirm($);
 
         var codePart = upload.render({
             elem: '#codePart' //绑定元素
@@ -112,7 +192,7 @@
                     layer.msg("无法识别营业执照中社会信用代码请重新上传");
                     return;
                 }
-                var codeValue = regValue[0].replace("统一社会信用代码","");
+                var codeValue = regValue[0].replace("统一社会信用代码", "");
                 regValue = res.data.ocr.match(/法定代表人[^\x00-\xff]{2,4}/);
                 if (regValue == null || regValue.length == 0) {
                     layer.msg("无法识别营业执照中的法人姓名请重新上传");
@@ -149,7 +229,7 @@
                     layer.msg("无法识别法人身份证姓名请重新上传");
                     return;
                 }
-                var nameValue =   regValue[0].replace("名", "");
+                var nameValue = regValue[0].replace("名", "");
                 var idValue = res.data.ocr.match(/\d{6}(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)/)[0].replace("名", "");
                 $('#name-tmp').attr("value", nameValue);
                 $('#name-input').attr("value", nameValue);
@@ -246,10 +326,10 @@
             //     return;
             // }
 
-            if (codeName !== nameInput || nameInput !== nameOcr){
+            if (codeName !== nameInput || nameInput !== nameOcr) {
                 var msg = "法人姓名与身份证识别输入不一致";
                 layer.msg(msg);
-                return ;
+                return;
             }
             layer.load(); //上传loading
 
