@@ -160,6 +160,7 @@ public class ImprovController {
         return filePath;
     }
 
+    @Deprecated
     @RequestMapping("/upload")
     @ResponseBody
     public BaseModel upload(@RequestParam("file") MultipartFile file) {
@@ -186,8 +187,8 @@ public class ImprovController {
 
             // 解决中文问题，liunx下中文路径，图片显示问题
             fileName = UUID.randomUUID() + suffixName;
-            String fileUrl = "/"+userDir+"/" + fileName;
-            filePath = filePath  + fileUrl;
+            String fileUrl = "/" + userDir + "/" + fileName;
+            filePath = filePath + fileUrl;
             File dest = new File(filePath);
 
             // 检测是否存在目录
