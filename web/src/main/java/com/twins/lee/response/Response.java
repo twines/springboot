@@ -37,17 +37,29 @@ public class Response<T> {
         this.msg = msg;
     }
 
+    public static <T> Response custom(int code, T data, String msg) {
+        return new Response(code, data, msg);
+    }
 
-    public static <T> Response success(String msg) {
+    public static <T> Response success(T data) {
+        return Response.success(data, "success");
+    }
+
+    public static Response success(String msg) {
         return Response.success(null, msg);
     }
 
-    public static <T> Response success() {
+    public static Response success() {
         return Response.success(null, "success");
     }
 
     public static <T> Response success(T data, String msg) {
-        return new Response(Response.Success, data);
+        return new Response(Response.Success, data, msg);
+    }
+
+
+    public static Response error() {
+        return Response.error(Response.Failed, null, null);
     }
 
     public static <T> Response error(int code, T error, String msg) {
