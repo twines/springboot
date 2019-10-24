@@ -1,7 +1,7 @@
 package com.twins.lee.controller;
 
 import com.twins.lee.entity.Improv;
-import com.twins.lee.model.BaseModel;
+import com.twins.lee.response.Response;
 import com.twins.lee.service.IImprovService;
 import com.twins.lee.utilites.ShiroUtility;
 import com.twins.lee.utilites.Utility;
@@ -51,10 +51,10 @@ public class ImprovController {
 
     @PostMapping("/doImpov")
     @ResponseBody
-    BaseModel improv(@RequestParam("code") String code,
-                     @RequestParam("code-part") String codePart,
-                     @RequestParam("name-part") String namePart,
-                     @RequestParam("name") String name) {
+    Response improv(@RequestParam("code") String code,
+                    @RequestParam("code-part") String codePart,
+                    @RequestParam("name-part") String namePart,
+                    @RequestParam("name") String name) {
 
         Subject subject = SecurityUtils.getSubject();
         List<Object> principals = subject.getPrincipals().asList();
@@ -70,7 +70,7 @@ public class ImprovController {
         improv.setId(Long.parseLong(user.get("id")));
         improv.setState(Improv.State.Improved);
         int rev = improvService.save(improv);
-        BaseModel baseModel = null;
+        Response baseModel = null;
 
 //        if (ocrCard(improv.getNameUrl(), improv.getCodeUrl(),
 //                improv.getCode(), improv.getName()) == false) {
@@ -78,10 +78,10 @@ public class ImprovController {
 //            return baseModel;
 //        }
         if (rev > 0) {
-            baseModel = new BaseModel(BaseModel.Success, result, "success");
+            baseModel = new Response(Response.Success, result, "success");
 
         } else {
-            baseModel = new BaseModel(BaseModel.Failed, result, "数据保存失败");
+            baseModel = new Response(Response.Failed, result, "数据保存失败");
 
         }
 
@@ -163,7 +163,7 @@ public class ImprovController {
     @Deprecated
     @RequestMapping("/upload")
     @ResponseBody
-    public BaseModel upload(@RequestParam("file") MultipartFile file) {
+    public Response upload(@RequestParam("file") MultipartFile file) {
 
 
         // 获取文件名
@@ -173,7 +173,7 @@ public class ImprovController {
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
 
 
-        BaseModel baseResult = null;
+        Response baseResult = null;
         try {
 
             // 文件上传路径
@@ -224,9 +224,9 @@ public class ImprovController {
                 }
             }
             Result result = new Result(fileUrl, ocrReco(fileUrl));
-            baseResult = new BaseModel(BaseModel.Success, result, "success");
+            baseResult = new Response(Response.Success, result, "success");
         } catch (Exception e) {
-            baseResult = new BaseModel(BaseModel.Exception, e, "success");
+            baseResult = new Response(Response.Exception, e, "success");
 
         }
         return baseResult;

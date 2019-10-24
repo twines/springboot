@@ -1,65 +1,40 @@
 package com.twins.lee.response;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- * @Authoe hanyun
- * @Email 1355081829@qq.com
- * @Date 2019/9/5
- **/
-public class Response {
-    public static Map<String, Object> success(Object data, String msg) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", 0);
-        result.put("data", data);
-        result.put("msg", msg);
-        return result;
+import lombok.Data;
+import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.NotNull;
+
+@Data
+public class Response<T> {
+    public static final int Success = 0;
+    public static final int Failed = 1;
+    public static final int Exception = 2;
+    public static final int NoAuthen = 3;
+    public static final int NoRight = 4;
+    public static final int UnknownUser = 5;
+    public static final int PasswordError = 6;
+    public static final int UserStateError = 7;
+    @NotNull
+    int code;
+    @Nullable
+    T data;
+    @Nullable
+    String msg;
+
+    /**
+     *
+     * @param code
+     * @param data
+     */
+    public Response(int code, T data) {
+        this(code, data, "success");
     }
 
-    public static Map<String, Object> success(Object data) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", 0);
-        result.put("data", data);
-        result.put("msg", "success");
-        return result;
-    }
-
-    public static Map<String, Object> success(String msg, int code) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", code);
-        result.put("data", new ArrayList<>());
-        result.put("msg", msg);
-        return result;
-    }
-
-    public static Map<String, Object> success() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", 0);
-        result.put("data", new ArrayList<>());
-        result.put("msg", "success");
-        return result;
-    }
-
-    public static Map<String, Object> error(String msg, int code) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", code);
-        result.put("msg", msg);
-        return result;
-    }
-
-    public static Map<String, Object> error(String msg) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", 1);
-        result.put("msg", msg);
-        return result;
-    }
-
-    public static Map<String, Object> error() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", 1);
-        result.put("msg", "error");
-        return result;
+    public Response(int code, T data, String msg) {
+        this.code = code;
+        this.data = data;
+        this.msg = msg;
     }
 }

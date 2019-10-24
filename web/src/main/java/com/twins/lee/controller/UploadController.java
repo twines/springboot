@@ -1,6 +1,13 @@
 package com.twins.lee.controller;
 
-import com.twins.lee.model.BaseModel;
+import cn.hutool.extra.qrcode.BufferedImageLuminanceSource;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.common.HybridBinarizer;
+import com.twins.lee.response.Response;
+import com.twins.lee.response.UploadResult;
 import com.twins.lee.service.IImprovService;
 import com.twins.lee.utilites.Utility;
 import net.sourceforge.tess4j.ITesseract;
@@ -13,12 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.util.annotation.Nullable;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Hashtable;
 import java.util.UUID;
+
+import static org.apache.catalina.manager.Constants.CHARSET;
 
 @Controller
 @RequestMapping("/file")
@@ -31,8 +43,9 @@ public class UploadController {
 
     @RequestMapping("/upload")
     @ResponseBody
-    public BaseModel upload(@RequestParam("file") MultipartFile file,
-                            @RequestParam(value = "needOCR", required = false, defaultValue = "false") boolean needOcr) {
+    public Response upload(@RequestParam("file") MultipartFile file,
+                           @RequestParam(value = "needOCR", required = false, defaultValue = "false") boolean needOcr,
+                           @RequestParam(value = "needQr", required = false, defaultValue = "false") boolean needQr) {
 
 
         // 获取文件名
@@ -42,7 +55,7 @@ public class UploadController {
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
 
 
-        BaseModel baseResult = null;
+        Response baseResponse = null;
         try {
 
             // 文件上传路径
@@ -66,20 +79,50 @@ public class UploadController {
             }
 
             file.transferTo(dest);
-            Result result = null;
-            if (needOcr) {
-                result = new Result(fileUrl, ocrReco(fileUrl));
+            UploadResult result = null;
+            if (needOcr && needQr == false) {
+                result = new UploadResult(fileUrl, ocrReco(fileUrl), null);
+            } else if (needQr && needOcr == false) {
+                result = new UploadResult(fileUrl, null, qrReco(fileUrl));
+            } else if (needQr && needOcr) {
+                String ocr = ocrReco(fileUrl);
+                String qr = qrReco(fileUrl);
+                result = new UploadResult(fileUrl, ocr, qr);
             } else {
-                result = new Result(fileUrl, null);
+                result = new UploadResult(fileUrl, null, null);
             }
-            baseResult = new BaseModel(BaseModel.Success, result, "success");
+            baseResponse = new Response(Response.Success, result, "success");
         } catch (Exception e) {
-            baseResult = new BaseModel(BaseModel.Exception, e, "success");
+            if (e instanceof NotFoundException) {
+                baseResponse = new Response(Response.Exception, e, "无法识别单据上的二维码信息");
+            } else {
+                baseResponse = new Response(Response.Exception, e, "success");
+            }
         }
-        return baseResult;
+        return baseResponse;
     }
 
-    protected String ocrReco(String imgPath) {
+    protected String qrReco(String imgPath) throws IOException, NotFoundException {
+        String destPath = docLocation + imgPath;
+
+        BufferedImage image;
+        image = ImageIO.read(new File(destPath));
+        if (image == null) {
+            return null;
+        }
+        BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(image);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+        com.google.zxing.Result result;
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
+        hints.put(DecodeHintType.CHARACTER_SET, CHARSET);
+        result = new MultiFormatReader().decode(bitmap, hints);
+
+        String resultStr = result.getText();
+
+        return resultStr;
+    }
+
+    private String ocrReco(String imgPath) {
         String sysPath = fileDestPath();
         String tranPath = sysPath;
         String destPath = sysPath + "/static" + imgPath;
@@ -113,36 +156,5 @@ public class UploadController {
         return filePath;
     }
 
-    class Result {
-        String url;
-        @Nullable
-        String ocr;
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getOcr() {
-            return ocr;
-        }
-
-        public void setOcr(String ocr) {
-            this.ocr = ocr;
-        }
-
-        public Result(String url, String ocr) {
-
-            this.url = url;
-            this.ocr = ocr;
-        }
-
-        public Result(String url) {
-            this(url, null);
-        }
-    }
 
 }
