@@ -24,7 +24,6 @@ public class Response<T> {
     String msg;
 
     /**
-     *
      * @param code
      * @param data
      */
@@ -36,5 +35,26 @@ public class Response<T> {
         this.code = code;
         this.data = data;
         this.msg = msg;
+    }
+
+
+    public static <T> Response success(String msg) {
+        return Response.success(null, msg);
+    }
+
+    public static <T> Response success() {
+        return Response.success(null, "success");
+    }
+
+    public static <T> Response success(T data, String msg) {
+        return new Response(Response.Success, data);
+    }
+
+    public static <T> Response error(int code, T error, String msg) {
+        return new Response<>(code, error, msg);
+    }
+
+    public static Response error(int code, String msg) {
+        return Response.error(code, null, msg);
     }
 }
