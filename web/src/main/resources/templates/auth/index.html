@@ -251,6 +251,39 @@
             </form>
         </div>
     </div>
+    <div class="layui-card">
+        <div class="layui-card-header">资产证明</div>
+        <div class="layui-card-body" style="padding: 15px;">
+            <form class="layui-form" action="" lay-filter="component-form-group">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 130px">添加资产证明<i class="layui-icon layui-icon-help"
+                                                                                  style="ri" id="tip"></i></label>
+                    <div class="layui-input-block" style="margin-left: 160px">
+                        <div class="layui-row layui-inline" style="width: 100%">
+                            <div class="layui-col-md6 layui-inline">
+                                <div class="layui-card">
+                                    <div class="layui-card-body">
+                                        <div class="layui-upload">
+                                            <button type="button" class="layui-btn" id="balance-upload-more"><i
+                                                    class="layui-icon"></i>点击添加资产证明（多次点击添加多张）
+                                            </button>
+                                            <blockquote class="layui-elem-quote layui-quote-nm"
+                                                        style="margin-top: 10px;">
+                                                预览图：
+                                                <div class="layui-upload-list" id="balance-upload-more-list"></div>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
 
 </div>
 
@@ -265,6 +298,7 @@
         var $ = layui.$
             , upload = layui.upload
             , admin = layui.admin
+            , layer = layui.layer
             , element = layui.element
             , form = layui.form;
 
@@ -352,6 +386,27 @@
             }
         });
 
+
+        upload.render({
+            elem: '#balance-upload-more'
+            , url: '/file/upload'
+            , multiple: false
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#balance-upload-more-list').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img"  style="width: 100px;height: 100px;margin-right: 20px">')
+                });
+            }
+            , done: function (res) {
+                //上传完毕
+            }
+        });
+
+        $('#tip').on('click', function () {
+            layer.tips('土地证，房产证', this, {
+                tips: 1
+            });
+        });
 
     });
 </script>
