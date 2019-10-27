@@ -1,7 +1,10 @@
 package com.twins.lee.controller;
 
+import com.twins.lee.entity.AssetBill;
+import com.twins.lee.mapper.AssetBillMapper;
 import com.twins.lee.request.AuthRequest;
 import com.twins.lee.response.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,6 +15,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+    @Autowired
+    private AssetBillMapper assetBillMapper;
+
+
     @GetMapping("/index")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("auth/index");
@@ -33,7 +40,12 @@ public class AuthController {
         Map<String, Object> map = new HashMap<>();
         System.out.println(person);
         if (balanceBill.length > 0) {
-            System.out.println(balanceBill[0]);
+            for (String bill : balanceBill) {
+                AssetBill assetBill = new AssetBill();
+                assetBill.setUserId(1);
+                assetBill.setAssetBill(bill);
+                assetBillMapper.insert(assetBill);
+            }
         }
         return person;
     }
