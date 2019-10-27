@@ -13,15 +13,15 @@ public class Author {
     private String SocialCode;
     @TableField("legal_person_name")
     private String legalPersonName;
-    @TableField("id_card_name")
+    @TableField("idcard_name")
     private String idCardName;
-    @TableField("id_card_serial")
+    @TableField("idcard_serial")
     private String idCardSerial;
-    @TableField("business_license")
-    private String businessLicense;
-    @TableField("id_card_up")
+    @TableField("business_license_bill")
+    private String businessLicenseBill;
+    @TableField("idcard_up")
     private String idCardUp;
-    @TableField("id_card_down")
+    @TableField("idcard_down")
     private String idCardDown;
     @TableField("user_id")
     private int userId;
@@ -74,12 +74,12 @@ public class Author {
         this.idCardSerial = idCardSerial;
     }
 
-    public String getBusinessLicense() {
-        return businessLicense;
+    public String getBusinessLicenseBill() {
+        return businessLicenseBill;
     }
 
-    public void setBusinessLicense(String businessLicense) {
-        this.businessLicense = businessLicense;
+    public void setBusinessLicenseBill(String businessLicenseBill) {
+        this.businessLicenseBill = businessLicenseBill;
     }
 
     public String getIdCardUp() {
