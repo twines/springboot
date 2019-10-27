@@ -61,7 +61,7 @@ public class AuthController {
         author.setLegalPersonName(person.get("userName"));
         author.setIdCardName(person.get("name"));
         author.setIdCardSerial(person.get("idCode"));
-        author.setBusinessLicense(person.get("businessImg"));
+        author.setBusinessLicenseBill(person.get("businessImg"));
         author.setIdCardDown(person.get("cardA"));
         author.setIdCardUp(person.get("cardB"));
         author.setUserId(1);
