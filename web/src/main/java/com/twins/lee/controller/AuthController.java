@@ -3,11 +3,7 @@ package com.twins.lee.controller;
 import com.twins.lee.request.AuthRequest;
 import com.twins.lee.response.Response;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -32,9 +28,12 @@ public class AuthController {
 
     @PostMapping("/doAuth")
     @ResponseBody
-    public Map<String, Object> doAuth() {
+    public Map<String, String> doAuth(@RequestParam Map<String, String> person, @RequestParam(value = "balanceBill[]", required = false) String[] balanceBill) {
         Map<String, Object> map = new HashMap<>();
-
-        return map;
+        System.out.println(person);
+        if (balanceBill.length > 0) {
+            System.out.println(balanceBill[0]);
+        }
+        return person;
     }
 }
