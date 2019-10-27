@@ -14,10 +14,11 @@
 <body>
 
 <div class="layui-fluid">
-    <div class="layui-card">
-        <div class="layui-card-header">企业营业执照及法人信息</div>
-        <div class="layui-card-body" style="padding: 15px;">
-            <form class="layui-form" action="" lay-filter="component-form-group">
+    <form class="layui-form" action="" lay-filter="component-form-group">
+
+        <div class="layui-card">
+            <div class="layui-card-header">企业营业执照及法人信息</div>
+            <div class="layui-card-body" style="padding: 15px;">
 
 
                 <div class="layui-form-item">
@@ -25,7 +26,7 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md6 layui-inline">
-                                <input type="text" name="fullname" lay-verify="required" placeholder="请输入统一社会信用代码"
+                                <input type="text" name="code" lay-verify="required" placeholder="请输入统一社会信用代码"
                                        autocomplete="off" class="layui-input" style="width: 100%">
 
                             </div>
@@ -39,7 +40,7 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md6 layui-inline">
-                                <input type="text" name="fullname" lay-verify="required" placeholder="请输入法人姓名"
+                                <input type="text" name="userName" lay-verify="required" placeholder="请输入法人姓名"
                                        autocomplete="off" class="layui-input" style="width: 100%">
 
                             </div>
@@ -52,7 +53,7 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md6 layui-inline">
-                                <input type="text" name="fullname" lay-verify="required" placeholder="请输入姓名"
+                                <input type="text" name="name" lay-verify="required" placeholder="请输入姓名"
                                        autocomplete="off" class="layui-input" style="width: 100%">
 
                             </div>
@@ -66,7 +67,7 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md6 layui-inline">
-                                <input type="text" name="fullname" lay-verify="required" placeholder="请输入法人身份证号"
+                                <input type="text" name="idCode" lay-verify="required" placeholder="请输入法人身份证号"
                                        autocomplete="off" class="layui-input" style="width: 100%">
 
                             </div>
@@ -143,14 +144,11 @@
                     </div>
                 </div>
 
-
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="layui-card">
-        <div class="layui-card-header">贸易单据</div>
-        <div class="layui-card-body" style="padding: 15px;">
-            <form class="layui-form" action="" lay-filter="component-form-group">
+        <div class="layui-card">
+            <div class="layui-card-header">贸易单据</div>
+            <div class="layui-card-body" style="padding: 15px;">
 
 
                 <div class="layui-form-item">
@@ -178,9 +176,10 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md3 layui-inline">
-                                <button type="button" class="layui-btn" id="extension-upload-more" style="width: 100%">
+                                <button type="button" class="layui-btn" id="logistics-bill-upload-more"
+                                        style="width: 100%">
                                     <i
-                                            class="layui-icon"></i>点击上其他附近
+                                            class="layui-icon"></i>点击上传物流单
                                 </button>
                             </div>
                         </div>
@@ -197,7 +196,8 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md3 layui-inline">
-                                <button type="button" class="layui-btn" id="extension-upload-more" style="width: 100%">
+                                <button type="button" class="layui-btn" id="insurance-upload-more"
+                                        style="width: 100%">
                                     <i
                                             class="layui-icon"></i>点击上其他附近
                                 </button>
@@ -216,7 +216,8 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md3 layui-inline">
-                                <button type="button" class="layui-btn" id="extension-upload-more" style="width: 100%">
+                                <button type="button" class="layui-btn" id="customs-upload-more"
+                                        style="width: 100%">
                                     <i
                                             class="layui-icon"></i>点击上其他附近
                                 </button>
@@ -235,7 +236,7 @@
                     <div class="layui-input-block" style="margin-left: 160px">
                         <div class="layui-row layui-inline" style="width: 100%">
                             <div class="layui-col-md3 layui-inline">
-                                <button type="button" class="layui-btn" id="extension-upload-more" style="width: 100%">
+                                <button type="button" class="layui-btn" id="trade-upload-more" style="width: 100%">
                                     <i
                                             class="layui-icon"></i>点击上其他附近
                                 </button>
@@ -248,13 +249,12 @@
                 </div>
 
 
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="layui-card">
-        <div class="layui-card-header">资产证明</div>
-        <div class="layui-card-body" style="padding: 15px;">
-            <form class="layui-form" action="" lay-filter="component-form-group">
+
+        <div class="layui-card">
+            <div class="layui-card-header">资产证明</div>
+            <div class="layui-card-body" style="padding: 15px;">
 
                 <div class="layui-form-item">
                     <label class="layui-form-label" style="width: 130px">添加资产证明<i class="layui-icon layui-icon-help"
@@ -280,10 +280,15 @@
                         </div>
                     </div>
                 </div>
-
-            </form>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="component-form-element">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 
 </div>
 
@@ -302,20 +307,24 @@
             , element = layui.element
             , form = layui.form;
 
-        form.render(null, 'component-form-element');
-        element.render('breadcrumb', 'breadcrumb');
+        // form.render(null, 'component-form-element');
+        // element.render('breadcrumb', 'breadcrumb');
 
-        form.on('submit(component-form-element)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
-
-
+        //企业营业执照
+        var businessImg;
+        //身份证 正反面
+        var cardA, cardB;
+        //税单
+        var bill;
+        var logisticsBill;
+        var insuranceBill;
+        var customsBill;
+        var tradeBill;
+        var balanceBill = [];
         upload.render({
             elem: '#test-upload-more'
             , url: '/file/upload'
             , multiple: false
-            , data: {"needOCR": true}
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
@@ -324,6 +333,9 @@
             }
             , done: function (res) {
                 //上传完毕
+                if (res.code === 0) {
+                    businessImg = res.data.url;
+                }
             }
         });
         upload.render({
@@ -338,6 +350,9 @@
             }
             , done: function (res) {
                 //上传完毕
+                if (res.code === 0) {
+                    cardA = res.data.url;
+                }
             }
         });
 
@@ -354,6 +369,10 @@
             }
             , done: function (res) {
                 //上传完毕
+
+                if (res.code === 0) {
+                    cardB = res.data.url;
+                }
             }
         });
 
@@ -369,11 +388,15 @@
             }
             , done: function (res) {
                 //上传完毕
+
+                if (res.code === 0) {
+                    bill = res.data.url;
+                }
             }
         });
 
         upload.render({
-            elem: '#extension-upload-more'
+            elem: '#logistics-bill-upload-more'
             , url: '/file/upload'
             , multiple: false
             , before: function (obj) {
@@ -384,10 +407,64 @@
             }
             , done: function (res) {
                 //上传完毕
+                if (res.code === 0) {
+                    logisticsBill = res.data.url;
+                }
             }
         });
 
 
+        upload.render({
+            elem: '#insurance-upload-more'
+            , url: '/file/upload'
+            , multiple: false
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#insurance-upload-more-list').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img"  style="width: 100px;height: 100px;margin-right: 20px">')
+                });
+            }
+            , done: function (res) {
+                //上传完毕 insurance
+                if (res.code === 0) {
+                    insuranceBill = res.data.url;
+                }
+            }
+        });
+        upload.render({
+            elem: '#customs-upload-more'
+            , url: '/file/upload'
+            , multiple: false
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#customs-upload-more-list').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img"  style="width: 100px;height: 100px;margin-right: 20px">')
+                });
+            }
+            , done: function (res) {
+                //上传完毕
+                if (res.code === 0) {
+                    customsBill = res.data.url;
+                }
+            }
+        });
+        upload.render({
+            elem: '#trade-upload-more'
+            , url: '/file/upload'
+            , multiple: false
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#trade-upload-more-list').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img"  style="width: 100px;height: 100px;margin-right: 20px">')
+                });
+            }
+            , done: function (res) {
+                //上传完毕
+                if (res.code === 0) {
+                    tradeBill = res.data.url;
+                }
+            }
+        });
         upload.render({
             elem: '#balance-upload-more'
             , url: '/file/upload'
@@ -400,6 +477,9 @@
             }
             , done: function (res) {
                 //上传完毕
+                if (res.code === 0) {
+                    balanceBill.push(res.data.url);
+                }
             }
         });
 
@@ -409,6 +489,26 @@
             });
         });
 
+        form.on('submit(component-form-element)', function (data) {
+            data.field.businessImg = businessImg;
+            data.field.cardA = cardA;
+            data.field.cardB = cardB;
+
+
+            data.field.bill = bill;
+            data.field.logisticsBill = logisticsBill;
+            data.field.insuranceBill = insuranceBill;
+            data.field.customsBill = customsBill;
+            data.field.tradeBill = tradeBill;
+            data.field.balanceBill = balanceBill;
+            layer.msg(JSON.stringify(data.field));
+            $.ajax({
+                method: 'post',
+                data: data.field,
+                url: '/auth/doAuth'
+            });
+            return false;
+        });
     });
 </script>
 
