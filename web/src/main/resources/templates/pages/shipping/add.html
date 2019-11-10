@@ -159,20 +159,41 @@
             layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
         });
 
+        var taxBill = [];
+        var entryBill = [];
+        var logisticsBill = [];
+        var insuranceBill = [];
+        var tradeBill = [];
+
         /* 监听提交 */
         form.on('submit(component-form-demo1)', function (data) {
+            data.field.taxBill = taxBill;
+            data.field.entryBill = entryBill;
+            data.field.logisticsBill = logisticsBill;
+            data.field.insuranceBill = insuranceBill;
+            data.field.tradeBill = tradeBill;
             parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
 
+            });
+            $.ajax({
+                method: 'post',
+                url: '/loan/index',
+                data: data.field,
+                success: function (res) {
+                    parent.layer.alert(res, {
+                        title: '结果'
+
+                    });
+                }
             });
             return false;
         });
 
 
-
         upload.render({
             elem: '#taxBill'
-            , url:  '/file/upload'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -182,11 +203,12 @@
             }
             , done: function (res) {
                 //上传完毕
+                taxBill.push(res.data.url);
             }
         });
         upload.render({
             elem: '#entryBill'
-            , url:  '/file/upload'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -196,6 +218,7 @@
             }
             , done: function (res) {
                 //上传完毕
+                entryBill.push(res.data.url);
             }
         });
         upload.render({
@@ -210,11 +233,12 @@
             }
             , done: function (res) {
                 //上传完毕
+                logisticsBill.push(res.data.url);
             }
         });
         upload.render({
             elem: '#insuranceBill'
-            , url:  '/file/upload'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -224,11 +248,12 @@
             }
             , done: function (res) {
                 //上传完毕
+                insuranceBill.push(res.data.url);
             }
         });
         upload.render({
             elem: '#tradeContract'
-            , url:  '/file/upload'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -238,6 +263,7 @@
             }
             , done: function (res) {
                 //上传完毕
+                tradeBill.push(res.data.url);
             }
         });
     });
