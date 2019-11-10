@@ -33,7 +33,4 @@ public class CompanyController {
         return Response.success(companyRequest);
      }
 
-
-
-
 }
