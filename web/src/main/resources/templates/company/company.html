@@ -22,14 +22,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">社会统一信用代码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                        <input type="text" name="creditCode" lay-verify="title" autocomplete="off" placeholder="请输入标题"
                                class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">法人姓名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                        <input type="text" name="userName" lay-verify="required" placeholder="请输入" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
@@ -37,14 +37,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">法人身份证号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                        <input type="text" name="idNumber" lay-verify="required" placeholder="请输入" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">企业银行卡号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                        <input type="text" name="bankNumber" lay-verify="required" placeholder="请输入" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">联系电话</label>
                     <div class="layui-input-block">
-                        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                        <input type="text" name="mobile" lay-verify="required" placeholder="请输入" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
@@ -166,6 +166,7 @@
                 layedit.sync(editIndex);
             }
         });
+        var cardA, cardB, businessLicense, assetProof = [];
 
         /* 监听指定开关 */
         form.on('switch(component-form-switchTest)', function (data) {
@@ -177,17 +178,31 @@
 
         /* 监听提交 */
         form.on('submit(component-form-demo1)', function (data) {
+            data.field.cardA = cardA;
+            data.field.cardB = cardB;
+            data.field.businessLicense = businessLicense;
+            data.field.assetProof = assetProof;
             parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
 
             });
+            ajax({
+                method: 'post',
+                url: '/center/improv',
+                data: data.field,
+                success: function (res) {
+                    parent.layer.alert(res, {
+                        title: '结果'
+
+                    });
+                }
+            });
             return false;
         });
 
-
         upload.render({
             elem: '#cardA'
-            , url: '/upload/'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -197,11 +212,12 @@
             }
             , done: function (res) {
                 //上传完毕
+                cardA = res.data.url;
             }
         });
         upload.render({
             elem: '#cardB'
-            , url: '/upload/'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -211,25 +227,27 @@
             }
             , done: function (res) {
                 //上传完毕
+                cardB = res.data.url;
             }
         });
         upload.render({
             elem: '#businessLicense'
-            , url: '/upload/'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
-                    $('#businessLicenseImages').append('<img style="width: 62px;height: 62px;margin-right: 2px" src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+                    $('#businessLicenseImages').html('<img style="width: 62px;height: 62px;margin-right: 2px" src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
                 });
             }
             , done: function (res) {
                 //上传完毕
+                businessLicense = res.data.url;
             }
         });
         upload.render({
             elem: '#proof'
-            , url: '/upload/'
+            , url: '/file/upload'
             , multiple: true
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
@@ -239,6 +257,7 @@
             }
             , done: function (res) {
                 //上传完毕
+                assetProof.push(res.data.url);
             }
         });
     });
