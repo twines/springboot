@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/src/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/src/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <a lay-href="/pages/auth/info.html" type="button" class="layui-btn">完善企业信息</a>
+        <a lay-href="/pages/shipping/add.html" type="button" class="layui-btn">办理货贷</a>
+        <a lay-href="/pages/shipping/addCredit.html" type="button" class="layui-btn">办理汇贷</a>
+        <a lay-href="/pages/shipping/addTax.html" type="button" class="layui-btn">办理税贷</a>
+        <a lay-href="/pages/exchange/add.html" type="button" class="layui-btn">办理结汇</a>
+        <a lay-href="/pages/drawback/add.html" type="button" class="layui-btn">办理退税</a>
+    </div>
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-card">
+            <div class="layui-card-header">待办事项</div>
+            <div class="layui-card-body">
+
+                <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                    <div carousel-item>
+                        <ul class="layui-row layui-col-space10">
+                            <li class="layui-col-xs6">
+                                <a lay-href="app/content/comment.html" class="layadmin-backlog-body">
+                                    <h3>认证申请</h3>
+                                    <p><cite>66</cite></p>
+                                </a>
+                            </li>
+                            <li class="layui-col-xs6">
+                                <a lay-href="app/forum/list.html" class="layadmin-backlog-body">
+                                    <h3>货贷</h3>
+                                    <p><cite>12</cite></p>
+                                </a>
+                            </li>
+                            <li class="layui-col-xs6">
+                                <a lay-href="template/goodslist.html" class="layadmin-backlog-body">
+                                    <h3>结汇</h3>
+                                    <p><cite>99</cite></p>
+                                </a>
+                            </li>
+                            <li class="layui-col-xs6">
+                                <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});"
+                                   class="layadmin-backlog-body">
+                                    <h3>退税</h3>
+                                    <p><cite>20</cite></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/src/layui/layui.js?t=1"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+
+<script>
+    layui.config({
+        base: '/src/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'console'], function () {
+
+    });
+
+
+</script>
+</body>
+</html>
+

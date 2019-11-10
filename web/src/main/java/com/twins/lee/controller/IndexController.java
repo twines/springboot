@@ -56,7 +56,7 @@ public class IndexController {
 //
 //
 //        model.addAttribute("userInfo", userInfo);
-        return "index";
+        return "pages/dashboard/index";
     }
 
     @RequestMapping("/home")

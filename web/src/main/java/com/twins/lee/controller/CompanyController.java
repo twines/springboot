@@ -7,14 +7,11 @@ import com.twins.lee.entity.newEntity.Company;
 import com.twins.lee.mapper.CompanyMapper;
 import com.twins.lee.request.CompanyRequest;
 import com.twins.lee.response.Response;
-import com.twins.lee.utilites.ShiroUtility;
 import com.twins.lee.utilites.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 
@@ -27,10 +24,13 @@ public class CompanyController {
     CompanyMapper companyMapper;
 
     @GetMapping("/center/improv")
-    public String improvCompany() {
+    public String improvCompany(@RequestParam(defaultValue = "true",required = false,value = "redirect") boolean redirect) {
 //不能重复的去完善企业信息，可以走修改功能
         Company company = companyMapper.selectByUserId(Utility.userId());
         if (company != null && company.getStatus() == Company.Finished) {
+            if (redirect==false) {
+                return "company/company";
+            }
             return "redirect:/";
         }
         return "company/company";
