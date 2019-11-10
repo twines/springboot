@@ -62,6 +62,10 @@ public class Response<T> {
         return Response.error(Response.Failed, null, null);
     }
 
+    public static Response error(String msg) {
+        return Response.error(Response.Failed, null, msg);
+    }
+
     public static <T> Response error(int code, T error, String msg) {
         return new Response<>(code, error, msg);
     }

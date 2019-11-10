@@ -4,5 +4,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.twins.lee.entity.newEntity.Company;
 
 public interface CompanyMapper extends BaseMapper<Company> {
-    Company selectByUserId(Integer userId);
+    Company selectByUserId(Long userId);
 }

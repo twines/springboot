@@ -46,16 +46,16 @@ public class IndexController {
 
             userInfo.putAll(info);
         }
-        Improv improv = improvService.UserImproveResultById(Utility.userId());
-        if (improv == null) {
-
-            userInfo.put("state", Improv.State.NeededInproved);
-        }else{
-            userInfo.put("state", improv.getState());
-        }
-
-
-        model.addAttribute("userInfo", userInfo);
+//        Improv improv = improvService.UserImproveResultById(Utility.userId());
+//        if (improv == null) {
+//
+//            userInfo.put("state", Improv.State.NeededInproved);
+//        }else{
+//            userInfo.put("state", improv.getState());
+//        }
+//
+//
+//        model.addAttribute("userInfo", userInfo);
         return "index";
     }
 

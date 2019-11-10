@@ -8,9 +8,9 @@ import lombok.Data;
 @TableName("company")
 public class Company {
     @TableField("id")
-    private Integer id;
+    private Long id;
     @TableField("user_id")
-    private Integer userId;
+    private Long userId;
     @TableField("credit_code")
     private String creditCode;
     @TableField("user_name")
@@ -32,38 +32,23 @@ public class Company {
     @TableField("status")
     private int status;
 
-    public Company(Integer userId) {
+    public Company(Long userId) {
         this.userId = userId;
     }
 
-    public Company(Integer id, Integer userId, String creditCode, String userName, String idNumber, String bankNumber, String mobile, String cardA, String cardB, String businessLicense, String assetProof, int status) {
-        this.id = id;
-        this.userId = userId;
-        this.creditCode = creditCode;
-        this.userName = userName;
-        this.idNumber = idNumber;
-        this.bankNumber = bankNumber;
-        this.mobile = mobile;
-        this.cardA = cardA;
-        this.cardB = cardB;
-        this.businessLicense = businessLicense;
-        this.assetProof = assetProof;
-        this.status = status;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
