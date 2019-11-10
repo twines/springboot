@@ -58,6 +58,9 @@ public class CompanyController {
         company.setCardA(companyRequest.getCardA());
         company.setCardB(companyRequest.getCardB());
         company.setBusinessLicense(companyRequest.getBusinessLicense());
+        //更改企业状态
+        company.setStatus(1);
+
         StringBuffer stringBuffer = new StringBuffer();
         for (int index = 0; index < assetProof.length; index++) {
             if (index < assetProof.length - 1) {
