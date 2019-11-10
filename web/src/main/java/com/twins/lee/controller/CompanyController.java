@@ -27,8 +27,8 @@ public class CompanyController {
 
     @PostMapping("/center/improv")
     @ResponseBody
-    public Response doImprovCompany(@RequestParam Map<String, Object> mapRequest) {
-        CompanyRequest companyRequest = JSONObject.parseObject(JSONObject.toJSONString(mapRequest), CompanyRequest.class);
+    public Response doImprovCompany(@RequestParam Map<String, Object> params) {
+        CompanyRequest companyRequest = JSONObject.parseObject(JSONObject.toJSONString(params), CompanyRequest.class);
 
         return Response.success(companyRequest);
      }
