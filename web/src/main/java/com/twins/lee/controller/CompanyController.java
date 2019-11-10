@@ -28,8 +28,11 @@ public class CompanyController {
 
     @GetMapping("/center/improv")
     public String improvCompany() {
-
-
+//不能重复的去完善企业信息，可以走修改功能
+        Company company = companyMapper.selectByUserId(Utility.userId());
+        if (company != null && company.getStatus() == Company.Finished) {
+            return "redirect:/";
+        }
         return "company/company";
     }
 
@@ -48,7 +51,6 @@ public class CompanyController {
         }
 
 
-
         Company company = new Company(Utility.userId());
         company.setUserName(companyRequest.getUserName());
         company.setCreditCode(companyRequest.getCreditCode());
@@ -65,7 +67,7 @@ public class CompanyController {
         for (int index = 0; index < assetProof.length; index++) {
             if (index < assetProof.length - 1) {
                 stringBuffer.append(assetProof[index] + ",");
-            }else {
+            } else {
                 stringBuffer.append(assetProof[index]);
             }
         }
@@ -74,7 +76,7 @@ public class CompanyController {
         int result = companyMapper.insert(company);
         if (result > 0) {
             innerCompany = companyMapper.selectByUserId(companyRequest.getUserId());
-        }else{
+        } else {
             return Response.error("数据保存出错");
         }
         return Response.success(innerCompany);

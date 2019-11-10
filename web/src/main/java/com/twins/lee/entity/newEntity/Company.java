@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @TableName("company")
 public class Company {
+    public static int Finished = 1;
     @TableField("id")
     private Long id;
     @TableField("user_id")
