@@ -7,21 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="/src/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/src/style/admin.css" media="all">
-    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
-    <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
 </head>
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <a lay-href="/pages/auth/info.html" type="button" class="layui-btn">完善企业信息</a>
-        <a lay-href="/pages/shipping/add.html" type="button" class="layui-btn">办理货贷</a>
-        <a lay-href="/pages/shipping/addCredit.html" type="button" class="layui-btn">办理汇贷</a>
-        <a lay-href="/pages/shipping/addTax.html" type="button" class="layui-btn">办理税贷</a>
-        <a lay-href="/pages/exchange/add.html" type="button" class="layui-btn">办理结汇</a>
-        <a lay-href="/pages/drawback/add.html" type="button" class="layui-btn">办理退税</a>
+        <a lay-href="/auth" type="button" class="layui-btn">完善企业信息</a>
+        <a lay-href="/shipping/add" type="button" class="layui-btn">办理货贷</a>
+        <a lay-href="/shipping/addCredit" type="button" class="layui-btn">办理汇贷</a>
+        <a lay-href="/shipping/addTax" type="button" class="layui-btn">办理税贷</a>
+        <a lay-href="/exchange/add" type="button" class="layui-btn">办理结汇</a>
+        <a lay-href="/drawback/add" type="button" class="layui-btn">办理退税</a>
     </div>
     <div class="layui-row layui-col-space15">
 
@@ -66,12 +63,11 @@
     </div>
 </div>
 
-<script src="/src/layui/layui.js?t=1"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 
 <script>
     layui.config({
-        base: '/src/' //静态资源所在路径
+        base: '/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'console'], function () {

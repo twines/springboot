@@ -4,7 +4,7 @@
  @Author：star1029
  @Site：http://www.layui.com/admin/
  @License：LPPL
-    
+
  */
 
 
@@ -34,7 +34,7 @@ layui.define(['table', 'form'], function(exports){
     ,height: 'full-220'
     ,text: '对不起，加载出现异常！'
   });
-  
+
   //监听工具条
   table.on('tool(LAY-user-manage)', function(obj){
     var data = obj.data;
@@ -44,7 +44,7 @@ layui.define(['table', 'form'], function(exports){
         ,title: '敏感操作，请验证口令'
       }, function(value, index){
         layer.close(index);
-        
+
         layer.confirm('真的删除行么', function(index){
           obj.del();
           layer.close(index);
@@ -68,17 +68,17 @@ layui.define(['table', 'form'], function(exports){
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
             var field = data.field; //获取提交的字段
-            
+
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});
             table.reload('LAY-user-front-submit'); //数据刷新
             layer.close(index); //关闭弹层
-          });  
-          
+          });
+
           submit.trigger('click');
         }
         ,success: function(layero, index){
-          
+
         }
       });
     }
@@ -101,7 +101,7 @@ layui.define(['table', 'form'], function(exports){
     ]]
     ,text: '对不起，加载出现异常！'
   });
-  
+
   //监听工具条
   table.on('tool(LAY-user-back-manage)', function(obj){
     var data = obj.data;
@@ -134,17 +134,17 @@ layui.define(['table', 'form'], function(exports){
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
             var field = data.field; //获取提交的字段
-            
+
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});
             table.reload('LAY-user-front-submit'); //数据刷新
             layer.close(index); //关闭弹层
-          });  
-          
+          });
+
           submit.trigger('click');
         }
-        ,success: function(layero, index){           
-          
+        ,success: function(layero, index){
+
         }
       })
     }
@@ -164,7 +164,7 @@ layui.define(['table', 'form'], function(exports){
     ]]
     ,text: '对不起，加载出现异常！'
   });
-  
+
   //监听工具条
   table.on('tool(LAY-user-back-role)', function(obj){
     var data = obj.data;
@@ -189,17 +189,17 @@ layui.define(['table', 'form'], function(exports){
           //监听提交
           iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function(data){
             var field = data.field; //获取提交的字段
-            
+
             //提交 Ajax 成功后，静态更新表格中的数据
             //$.ajax({});
             table.reload('LAY-user-back-role'); //数据刷新
             layer.close(index); //关闭弹层
-          });  
-          
+          });
+
           submit.trigger('click');
         }
         ,success: function(layero, index){
-        
+
         }
       })
     }

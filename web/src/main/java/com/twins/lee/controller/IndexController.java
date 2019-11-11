@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.UnsupportedEncodingException;
@@ -56,7 +57,7 @@ public class IndexController {
 //
 //
 //        model.addAttribute("userInfo", userInfo);
-        return "pages/dashboard/index";
+        return "index";
     }
 
     @RequestMapping("/home")
@@ -70,10 +71,51 @@ public class IndexController {
         return "403";
     }
 
-//    @RequiresRoles(value = {"admin","vip"}, logical = Logical.OR)
+    //    @RequiresRoles(value = {"admin","vip"}, logical = Logical.OR)
     @RequestMapping("/dashboard")
     public String dashboard() {
 
-        return "dashboard";
+        return "pages/dashboard/index";
     }
+
+    @GetMapping("/auth")
+    public String auth() {
+        return "pages/auth/info";
+    }
+
+    @GetMapping("/shipping/add")
+    public String shippingAdd() {
+        return "pages/shipping/add";
+    }
+
+    @GetMapping("/shipping/addCredit")
+    public String shippingAddCredit() {
+        return "pages/shipping/addCredit";
+    }
+
+    @GetMapping("/shipping/addTax")
+    public String shippingAddTax() {
+        return "pages/shipping/addTax";
+    }
+
+    @GetMapping("/exchange/add")
+    public String exchangeAddTax() {
+        return "pages/exchange/add";
+    }
+
+    @GetMapping("/drawback/add")
+    public String drawbackAdd() {
+        return "pages/drawback/add";
+    }
+
+    @GetMapping("/auth/list")
+    public String authList() {
+        return "pages/auth/list";
+    }
+
+    @GetMapping("/shipping/list")
+    public String shippingList() {
+        return "pages/shipping/list";
+    }
+
 }
