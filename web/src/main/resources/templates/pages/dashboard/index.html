@@ -38,20 +38,20 @@
                             <li class="layui-col-xs6">
                                 <a lay-href="app/forum/list.html" class="layadmin-backlog-body">
                                     <h3>货贷</h3>
-                                    <p><cite>12</cite></p>
+                                    <p><cite th:text="${ results.containsKey('loanGoods') ? results.loanGoods.orderTotal:0}">12</cite></p>
                                 </a>
                             </li>
                             <li class="layui-col-xs6">
                                 <a lay-href="template/goodslist.html" class="layadmin-backlog-body">
                                     <h3>结汇</h3>
-                                    <p><cite>99</cite></p>
+                                    <p><cite th:text="${results.containsKey('exchange') ? results.exchange.orderTotal:0}">99</cite></p>
                                 </a>
                             </li>
                             <li class="layui-col-xs6">
                                 <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});"
                                    class="layadmin-backlog-body">
                                     <h3>退税</h3>
-                                    <p><cite>20</cite></p>
+                                    <p><cite th:text="${results.containsKey('drawback') ? results.drawback.orderTotal:0}">20</cite></p>
                                 </a>
                             </li>
                         </ul>

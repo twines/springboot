@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.twins.lee.mapper.DashboardIndexMapper">
+<resultMap id="" type="com.twins.lee.entity.newEntity.DashboardIndex">
+
+</resultMap>
+    <select id="dashboardIndex" resultType="com.twins.lee.entity.newEntity.DashboardIndex">
+SELECT user_id userId , type , COUNT(user_id) orderTotal FROM shipping WHERE user_id = #{userId} GROUP BY type;</select>
+</mapper>
